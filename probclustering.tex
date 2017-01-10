@@ -1,0 +1,379 @@
+\documentclass[11pt]{article}
+\usepackage[margin=1in, paperwidth=8.5in, paperheight=11in]{geometry}
+\usepackage{epstopdf}
+\usepackage[parfill]{parskip}
+\usepackage[pdftex]{graphicx}
+\usepackage{changepage}
+\usepackage{titling}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{extramarks}
+\usepackage{amsfonts}
+\usepackage{amsthm}
+\usepackage{array}
+\usepackage{framed}
+\usepackage{xy}
+\usepackage{multicol}
+\usepackage{hyperref}
+\usepackage{float}
+\usepackage{subfig}
+\usepackage[algoruled]{algorithm2e}
+\textwidth 7.0in
+\usepackage{fancyhdr}
+\usepackage{lastpage}
+\pagestyle{fancy}
+\headheight 26pt
+\fancyhf{}
+\linespread{1.1}
+\headsep20pt
+\newcommand{\inlinecode}{\texttt}
+\newcommand{\divider}{\line(1,0){250}}
+\rfoot{Page \thepage \  of \pageref{LastPage} }
+
+\renewcommand\headrulewidth{0.4pt}
+\renewcommand\footrulewidth{0.4pt}
+
+\setlength\parindent{0pt}
+
+%Custom definitions
+\newcommand{\problempart}[1]{\textbf{#1.}}
+\newcommand{\pof}[1]{\text{P(#1)}}
+\newcommand{\subtitle}[1]{%
+      \posttitle{%
+              \par\end{center}
+                  \begin{center}\large#1\end{center}
+                          \vskip0.5em}%
+                      }
+
+%%Set symbols
+\newcommand{\given}{\ensuremath{|} }
+\newcommand{\AND}{\ensuremath{\cap} }
+\newcommand{\OR}{\ensuremath{\cup} }
+
+\newcommand{\N}{\mathbb{N}}
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\Z}{\mathbb{Z}}
+\newcommand{\Q}{\mathbb{Q}}
+
+\newcommand{\powerset}[1]{\ensuremath{ \mathcal P \left({#1}\right)}}
+\newcommand{\set}[1]{\ensuremath{\left\{ #1 \right\}}}
+\newcommand{\stcomp}[1]{\overline{#1}} 
+
+\newcommand{\dlim}[2][\infty]{\displaystyle \lim_{#2 \rightarrow #1}}
+\newcommand{\indefint}{\displaystyle \int}
+\newcommand{\be}{\begin{enumerate}}
+\newcommand{\ee}{\end{enumerate}}
+\newcommand{\dsum}[2]{\displaystyle \sum_{#1}^{#2} }
+\newcommand{\defint}[4]{\int^#2_#1 #3\,d#4}
+
+\newcommand{\bx}{\ensuremath{\mathbf{x}}}
+\newcommand{\bz}{\ensuremath{\mathbf{z}}}
+\newcommand{\kl}[1]{\textsc{kl}\left(#1\right)}
+\newcommand{\g}{\,\vert\,}
+
+\newcommand{\EE}[1]{\mathbb{E}\left[#1\right]}
+\newcommand{\EEE}[2]{\mathbb{E}_{#1}\left[#2\right]}
+\newcommand{\ELBO}{\textsc{elbo}}
+
+%
+% Create Problem Sections
+%
+
+\newcommand{\enterProblemHeader}[1]{
+    \nobreak\extramarks{}{Problem \arabic{#1} continued on next page\ldots}\nobreak{}
+    \nobreak\extramarks{Problem \arabic{#1} (continued)}{Problem \arabic{#1} continued on next page\ldots}\nobreak{}
+}
+
+\newcommand{\exitProblemHeader}[1]{
+    \nobreak\extramarks{Problem \arabic{#1} (continued)}{Problem \arabic{#1} continued on next page\ldots}\nobreak{}
+    \stepcounter{#1}
+    \nobreak\extramarks{Problem \arabic{#1}}{}\nobreak{}
+}
+
+\setcounter{secnumdepth}{0}
+\newcounter{partCounter}
+\newcounter{homeworkProblemCounter}
+\setcounter{homeworkProblemCounter}{1}
+\nobreak\extramarks{Problem \arabic{homeworkProblemCounter}}{}\nobreak{}
+
+%
+% Homework Problem Environment
+%
+% This environment takes an optional argument. When given, it will adjust the
+% problem counter. This is useful for when the problems given for your
+% assignment aren't sequential. See the last 3 problems of this template for an
+% example.
+%
+\newenvironment{homeworkProblem}[1][-1]{
+    \ifnum#1>0
+        \setcounter{homeworkProblemCounter}{#1}
+    \fi
+    \section{Problem \arabic{homeworkProblemCounter}}
+    \setcounter{partCounter}{1}
+    \enterProblemHeader{homeworkProblemCounter}
+}{
+    \exitProblemHeader{homeworkProblemCounter}
+}
+
+\renewcommand{\part}[1]{\textbf{\large Part \Alph{partCounter}}\stepcounter{partCounter}\vspace{4pt}  \\}
+
+% Various Helper Commands
+%
+
+\newcommand{\adjustimg}{% Horizontal adjustment of image
+  \checkoddpage%
+  \ifoddpage\hspace*{\dimexpr\evensidemargin-\oddsidemargin}\else\hspace*{-\dimexpr\evensidemargin-\oddsidemargin}\fi%
+}
+\newcommand{\centerimg}[2][width=\textwidth]{% Center an image
+  \makebox[\textwidth]{\adjustimg\includegraphics[#1]{#2}}%
+}
+
+
+% Useful for algorithms
+\newcommand{\alg}[1]{\textsc{\bfseries \footnotesize #1}}
+
+% For derivatives
+\newcommand{\deriv}[1]{\frac{\mathrm{d}}{\mathrm{d}x} (#1)}
+
+% For partial derivatives
+\newcommand{\pderiv}[2]{\frac{\partial}{\partial #1} (#2)}
+
+% Integral dx
+\newcommand{\dx}{\mathrm{d}x}
+
+% Alias for the Solution section header
+\newcommand{\solution}{\textbf{\large Solution}}
+
+% Probability commands: Expectation, Variance, Covariance, Bias
+\newcommand{\E}{\mathrm{E}}
+\newcommand{\Var}{\mathrm{Var}}
+\newcommand{\Cov}{\mathrm{Cov}}
+\newcommand{\Bias}{\mathrm{Bias}}
+
+\newcommand{\matr}[1]{\mathbf{#1}}
+
+\makeatletter
+\def\thm@space@setup{%
+  \thm@preskip=0.4cm
+  \thm@postskip=\thm@preskip % or whatever, if you don't want them to be equal
+}
+\makeatother
+
+
+\newtheorem{theorem}{Theorem}
+\newtheorem{lemma}{Lemma}
+\newtheorem{proposition}{Proposition}
+\newtheorem{observation}{Observation}
+\newtheorem{proposal}{Proposal}
+\newtheorem{claim}{Claim}
+
+% Move qed box to the left
+\renewcommand{\qed}{\unskip\nobreak\quad\qedsymbol}
+
+\newenvironment{conditions}
+  {\par\vspace{\abovedisplayskip}\noindent\begin{tabular}{>{$}l<{$} @{${}={}$} l}}
+  {\end{tabular}\par\vspace{\belowdisplayskip}}
+
+% Title page
+
+  \title{Clustering SNVs for Tumor Heterogeneity}
+  \subtitle{Math-CS Sc.B Thesis Proposal}
+  \date{\today}
+\author{David Liu}
+% Header
+
+\begin{document}
+\maketitle
+\section{Problem statement}
+Cancer results from an evolutionary process where somatic mutations occur and accumulate in a population of cells. A mutation causes genetic variation at a genomic site called a single nucleotide variant (SNV) for the cell which obtained the mutation and all of its progeny. Thus, combinations of SNVs correspond to different subpopulations of cells (clones) which can be placed on a phylogenetic tree. This mixture of clones is a phenomenon known as intratumor hetereogeneity. Each clone is commonly modeled by a binary feature vector, where each feature is an SNV.
+
+So suppose we take biopsy samples from a tumor seperated spatially or temporally. Each sample will have different proportions of clones whose relationships are unknown. Our goal is to characterize the evolutionary history of the clones (invariant across samples) and their mixing proportions (variant across samples). 
+
+The data typically used for tree inference is called the variant allele frequency (VAF), observed as follows. Suppose we bulk sequence each sample seperately, so that the reads are from a sample's mixture of clones. By comparing to a control sample, if a read contains the mutated allele at a SNV, it is called a variant read; otherwise it is called a reference read. The VAF is defined for each SNV in each sample, as, in each sample, the number of variant reads at an SNV divided by the number of total reads at that SNV.
+
+There exist algorithms to infer a tree and its population mixing proportions given perfectly accurate VAFs. However in the real world, data is noisy and this isn't so simple. Two VAFs that look different may actually be from the same clone; likewise, two VAFs that look the same may be from different clones. Thus, it is common to perform clustering to assign mutations to clusters which correspond to clones. Tree inference is then performed on these clusters.
+
+In this thesis, I propose and implement a method to cluster mutations using the Dirichlet Process and variational inference based on a binomial mixture model, which is suited for the clone mixing problem. It could also have applications in other clustering problems.
+
+\newpage
+
+\section{Model}
+
+Let $m = 1, \ldots, M$ index the samples and let $n = 1, ..., N$ index the SNVs. For each SNV $n$ in sample $m$, we observe two quantities: the total number $d_{mn}$ of reads and the number $v_{mn}$ of variant reads. Let $\bx$ be the vector which encapsulates the data. Let $k=1,\ldots,K$ index the clusters and let $z_n$ denote the cluster assignment of SNV $n$, where $z_n$ is a 1-of-$K$ indicator vector. In addition, let $\bz$ be the vector of all $z_n$.
+
+Suppose that each clone emits variant reads according to a binomial distribution. Thus, for cluster $k$ and some reads $d_{mn}$, we have variant reads distributed with $\mathrm{Bin}(d_{mn}, \phi_{kz_{nk}})$. (\textbf{Note: May change this into a negative binomial model.}) We can consider the joint probability of a site by the product of each sample, since we assume they are independent. That is,
+\begin{equation}
+p(\mathbf{x_n} | \mathbf{\phi_n}) = \prod\limits_{m=1}^M \mathrm{Bin}(d_{mn}, \phi_{mn})
+\end{equation}
+
+Further suppose that the cluster memberships $z_n$ and weights $\pi_k$ are generated by a Dirichlet process prior. As we can see by inspecting the graphical model, the likelihood of $\bx$ depends on the latent variables in a straightforward way:
+\begin{align}
+p(\mathbf{x_n} | \bz, \mathbf{\phi}) &= \prod\limits_{k=1}^K p(\mathbf{x_n} | \mathbf{\phi_n})^{z_{nk}} \nonumber \\
+										&= \prod\limits_{k=1}^K \prod\limits_{m=1}^M \mathrm{Bin}(d_{mn}, \phi_{mn})^{z_{nk}}
+\end{align}
+Now consider the joint likelihood of the observed data and latent variables, which follows from (2): 
+\begin{equation}
+p(\mathbf{v_n}, \bz | \mathbf{\pi}, \mathbf{\phi_n}) = \prod\limits_{k=1}^K \prod\limits_{m=1}^M \left(\pi_k \mathrm{Bin}(d_{mn}, \phi_{mn})\right)^{z_{nk}}
+\end{equation}
+
+Figure~\ref{fig:GM} on the next page shows the graphical model.
+
+\newpage
+Notation:
+
+\begin{quote}
+$n = 1, \ldots , N$:  SNVs \\
+$m = 1, \ldots , M$: samples \\
+$k = 1, \ldots ,  K$: clusters
+\end{quote}
+
+\begin{figure}[H]
+\centerimg[scale=1.0]{multi_pgm.png}
+\caption{Graphical model for the VAFs.}
+\label{fig:GM}
+\end{figure}
+
+\begin{quote}
+$DP$ = Dirichlet process RV (stick-breaking construction) \\
+$H \sim U(0,1)$ = Base distribution for parameters $\phi_{nk}$	 \\
+$\pi_k$ = Weights for categorical distribution \\
+$z_{n} \in \{1, \cdots, K\}  \sim \mathrm{Categorical}(\pi_1, \cdots, \pi_K)$ =  Cluster membership for SNV $n$\\
+$\phi_{mk}$ = Cluster frequency \\ 
+$v_{mn} \sim \mathrm{Binom}(d_{m,n}, \phi_{m,c_n})$ = Observed variant reads\\ 
+$d_{mn}$ = Observed total reads
+\end{quote}
+
+The VAF of SNV $n$ in sample $m$ is equal to $f_{m,n} = \frac{v_{mn}}{d_{mn}}$. We can encode all sample VAFs in a $M \times N$ matrix $F = [f_{mn}]$ which we call the VAF matrix, which is the input for the clustering problem.
+
+\newpage
+
+Suppose we have some set of clusters $\mathcal{C}=\{C_1, ..., C_K\}$. Let $C_k = \{n: c_n = k\}$, that is $C_k$ is all $n$ that are in cluster $k$. Further suppose that we have some matrix of inferred VAFs, $\Phi$. Pool reads as follows:
+\begin{align}
+\widetilde{d}_{m,k} &= \sum\limits_{n \in C_k} d_{m,n} \\
+\widetilde{v}_{m,k} &= \sum\limits_{n \in C_k} v_{m,n}
+\end{align}
+
+Then the likelihood of some VAF matrix $F$  under some clustering $\mathcal{C}$ is
+\begin{align}
+P(F|\mathcal{C}, \Phi) = \prod\limits_{m=1}^M \prod\limits_{k=1}^K\binom{\widetilde{d}_{p,j}}{\widetilde{v}_{m,k}} \left({\Phi}_{m,k}\right)^{\widetilde{v}_{m,k}} \left(1 - \Phi_{m,k}\right)^{\widetilde{d}_{m,k} - \widetilde{v}_{m,k}}
+\end{align}
+where the outer product is over all samples and the inner product is over the clusters in a sample.
+
+The posterior involves a Dirichlet Process prior, which is analytically intractable. We must use some sort of computational technique to perform inference on this posterior.
+
+\section{Variational Inference}
+
+Variational inference is an alternative to MCMC-based inference methods. At a high level, variational inference factors a posterior using the mean-field approximation, which approximates the posterior in a higher-dimensional space using simpler independent functions. Then a simple coordinate ascent can be performed in order to infer the model parameters.
+
+Now we wish to use variational inference to infer a $\mathcal{C}, \Phi$ for our posterior. This requires the posterior to be in the exponential family (source).
+
+\begin{lemma}
+The product of two exponential family functions is also exponential.
+\begin{proof}
+Exponential family functions can be parameterized by $$f_X(x\mid\theta) = h(x) \exp \left (\theta^T \cdot T(x) -A(\theta)\right ).$$ So suppose we have $f_1, f_2$ which are correspondingly parameterized. Note that $T(x)$ is the same because the sufficient statistic is invariant across a distribution. Then the product is
+\begin{align*}
+f_1 \times f_2 &= h_1(x) \exp \left (\theta_1^T \cdot T(x) -A(\theta_1)\right ) \times h_2(x) \exp \left (\theta_2^T \cdot T(x) -A(\theta_2)\right )\\
+			   &= \tilde{h}(x) \exp \left ((\theta_1 + \theta_2)^T \cdot T(x) -\tilde{A}(\theta_1, \theta+2)\right )
+\end{align*}
+which is also an exponential family distribution.
+\end{proof}
+\end{lemma}
+\begin{claim}
+The posterior is also of the exponential family.
+\begin{proof}
+    The DP prior is also exponential (source). Then the claim is trivial by lemma 1.
+\end{proof}
+\end{claim}
+\newpage
+
+\section{Details on Variational Inference}
+
+\subsection{The \textsc{ELBO}}
+
+Let $\mathbf{z}$ denote the latent variables, and $\mathbf{x}$ denote the data. We seek to approximate the posterior $p(\mathbf{z}|\mathbf{x})$ from a family of distributions $\mathcal{D}$ by solving the following optimization problem: 
+\begin{equation}
+q^*(z) = \arg\!\min_{q(\mathbf{z}) \in \mathcal{D}} \kl{(q(\mathbf{z}) || p(\mathbf{z}|\mathbf{x}))}.
+\end{equation}
+
+where \textsc{kl} is the KL-divergence, which measures the ``distance'' between two distributions. 
+
+However, (4) requires us to compute the log evidence (which is intractable over the space of all $\mathbf{z}$) since 
+\begin{align}
+  \kl{q(\bz) \| p(\bz \g \bx)} =
+  \E\left[\log q(\bz)\right] -
+  \E\left[\log p(\bz, \bx)\right] +
+  \log p(\bx). 
+\end{align}
+
+Instead, we optimize an objective function which is not dependent on $\log p(\bx)$. We call this the evidence lower bound (\textsc{ELBO}), which is equal to the negative \textsc{KL}-divergence plus the $\log$ evidence.
+\begin{align}
+  \ELBO(q) =
+  \E{\log p(\bz, \bx)} -
+  \E{\log q(\bz)}.
+\end{align}
+and thus we see that $\log p(\bx)$ is a constant with respect to $q$. The $\textsc{ELBO}$ gets its name from the fact that it is a lower bound for the $\log$ evidence. 
+
+\subsection{The mean-field variational family}
+And what family of distributions do we use for $\mathcal{D}$? The standard technique is to use a simple one from physics, the mean-field variational family. In this family, the latent variables $\bz$ are mutually independent so that the joint distribution factorizes:
+\begin{align}
+  q(\bz) = \prod_{j=1}^{m} q_j(z_j).
+\end{align}
+where $q_j$ is a bounded variation dependent only on $z_j$. The structure of the model will dictate the optimal form of $q_j$. 
+
+\subsection{Mean-field assumptions break dependency to give us coordinate ascent}
+The optimization is solved using a coordinate ascent algorithm, where the independence of the latent variables gives us orthogonality. Let $z_{-j}$ denote the set of latent variables $z_l$ such that $l \neq j$. Consider the complete conditional of $z_j$, which is a function of the other latent variables and the data, $p(z_j \g \bz_{-j}, \bx)$. Since the expectation in the \textsc{ELBO} is with respect to $q(\bz)$, which we have assumed factorizes, then we can dissect out the dependence with respect to $\bz_j$ by using (6) and (7):
+\begin{align}
+\ELBO(q) &= \int \prod q_i(\bz_i) \left(\log p(\bz, \bx) - \sum_i \log q_i(\bz_i) \right) \,d\bz \nonumber \\
+			&\propto \int q_j(z_j) \E_{-j}\left[\log p(\bx, \bz) \right] \, d\bz_j - \int q_j(z_j) \log q_j(\bz_j) \, d\bz_j
+\end{align}
+Now suppose that we fix $z_{-j}$ and maximize the \textsc{ELBO}. Then the \textsc{ELBO} is maximized when $\log q_j(\bz_j) \propto \E_{-j}\left[\log p(\bx, \bz) \right]$, by the positivity of the $\textsc{KL}$-divergence. Thus the optimal $q^*(\bz_j)$ occurs when
+\begin{align}
+q^*_j(\bz_j) \propto \exp\left(\E_{-j}\left[\log p(\bx, \bz) \right]\right)
+\end{align}
+
+(9) underlies the coordinate-ascent variational inference algorithm. By iterating through each variational factor, fixing the others, and performing coordinate ascent (similar to Gibbs sampling), then we eventually reach a local optimum of the \textsc{ELBO}.
+
+\textsc{CAVI}
+\begin{algorithm}[h]
+\KwIn{A model $p(\bx, \bz)$, a data set $\bx$}
+\KwOut{A variational density $q(\bz) = \prod_{j=1}^{m} q_{j}(z_j)$}
+\textbf{Initialize:} Variational factors $q_{j}(z_j)$ \\
+\While{the \textsc{ELBO} has not converged} {
+  \For{$j \in \{1, \ldots, m\}$} {
+    Set $q_{j}(z_j) \propto \exp\{\E_{-j}[\log p(z_j \g \bz_{-j}, \bx)]\}$\\
+  }
+  Compute $\ELBO(q) = \EE{\log p(\bz, \bx)} + \EE{\log q(\bz)}$
+}
+\Return{$q(\bz)$}
+\caption{\textsc{CAVI}}
+\label{alg:cavi}
+\end{algorithm}
+
+\section{Variational Inference on Multi-sample Binomial Model}
+So suppose that our posterior factors as follows:
+\begin{align}
+    q(\mathcal{\bz}, \Phi | F) &=
+\underbrace{\prod\limits_{k=1}^\infty q(\vec{\phi_k})}_{\text{Observation parameters}} \times
+ \underbrace{\prod\limits_{k=1}^\infty q(\vec{w_k})}_{\text{Cluster proportions}} \times
+ \underbrace{\prod\limits_{n=1}^{N} q(z_n)}_{\text{Assignment of data to clusters}} \\
+ &= 
+ \underbrace{\prod\limits_{k=1}^\infty\prod\limits_{m=1}^M q(\phi_{km})}_{\text{Observation parameters}} \times
+ \underbrace{\prod\limits_{k=1}^\infty \prod\limits_{m=1}^M q(w_{km})}_{\text{Cluster proportions}} \times
+ \underbrace{\prod\limits_{n=1}^{N} q(z_n)}_{\text{Assignment of data to clusters}}
+ \intertext{Where we make the variational approximations based on sufficient statistic parameters (everything with a hat):}
+ q(\phi_{km}) &= P(\phi_{km}|\hat{\tau}_{km}, \hat{\nu}_{km}) \nonumber \\
+ q(w_{km}) &= \mathrm{Beta}(w_{km}|\hat{\eta}_{km0}, \hat{\eta}_{km1}) \nonumber \\
+ q(z_n) &= \mathrm{Cat}_\infty(z_n | \hat{r}_{n1}, \cdots, \hat{r}_{nk})\nonumber 
+\end{align}
+$q(\phi_{km}) = P(\phi_{km}|\hat{\tau}_{km}, \hat{\nu}_{km})$ is something I still have to figure out.
+
+The actual update equations are also something I still have to figure out.
+
+\section{Implmentation}
+This will either be implemented in Python or R.
+
+\section{Evaluating results}
+
+The clusterings will be evaluated on simulated and real tumor data. It may also be used in conjunction with other algorithms which use such clusterings as input, to see if this improves their performance.
+
+\end{document}
