@@ -10,7 +10,7 @@ import daft
 
 
 # Instantiate the PGM.
-pgm = daft.PGM([4.3, 4.05], origin=[0.3, 0.3], observed_style="shaded")
+pgm = daft.PGM([5.4, 4.05], origin=[0.3, 0.3], observed_style="shaded")
 
 # Hierarchical parameters.
 pgm.add_node(daft.Node("alpha", r"$\alpha$", 1, 4))
@@ -34,7 +34,7 @@ pgm.add_edge("phi_mk", "v_mn")
 
 # Add plates.
 
-pgm.add_plate(daft.Plate([1.55, 2.60, 2, 1], label=r"$k = 1, \cdots, K$",
+pgm.add_plate(daft.Plate([1.55, 2.60, 2, 1], label=r"$k = 1, \cdots, K, ..., (\infty)$",
         shift=-0.1, label_offset=[115, 0]))
 
 pgm.add_plate(daft.Plate([0.4, 0.45, 3, 1.83], label=r"$n = 1, \cdots, N$",
