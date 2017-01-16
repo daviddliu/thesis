@@ -6,9 +6,9 @@ class MultiBinomMixtureModel(ClusteringObject):
     Performs clustering on a model with multivariate binomial distributions under a DP allocation, with coordinate ascent variational inference.
     """
 
-    def __init__(self, output_dir, data_dir, sim_name):
+    def __init__(self, output_dir, data_dir, sim_name, kmeans=False):
         super(MultiBinomMixtureModel, self).__init__("MultiBinom", output_dir, data_dir, sim_name)
-        self.CAVI = MultiBinomCAVI(self.var_reads, self.ref_reads)
+        self.CAVI = MultiBinomCAVI(self.var_reads, self.ref_reads, kmeans=kmeans)
         self.alpha_post = None
         self.beta_post = None
         self.num_clusters = None

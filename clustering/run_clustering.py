@@ -7,7 +7,7 @@ Single run code.
 """
 
 def run_single(data_dir="data/simulated/Cov_1000_Samples_4_Mut_100_Clone_10_PCR_Removed/sim_0", sim="sim_0"):
-    clustering_model = MultiBinomMixtureModel("single_output", data_dir, sim)
+    clustering_model = MultiBinomMixtureModel("single_output", data_dir, sim, kmeans=True)
     clustering_model.perform_clustering()
 
     # Put learned values into the model.
@@ -30,4 +30,6 @@ def run_all():
     clustering_module.generate_violin_plots()
 
 
-run_all()
+# run_all()
+
+run_single()

@@ -2,7 +2,7 @@ import numpy as np
 from scipy.special import digamma, gammaln
 from scipy.stats import entropy
 from util import log_choose, inplaceExpAndNormalizeRows, calcBetaExpectations
-from sklearn.preprocessing import normalize
+from sklearn.cluster import KMeans
 import ipdb
 
 class VariationalModel(object):
@@ -61,7 +61,7 @@ class VariationalModel(object):
         Array of cluster responsibilities.
 
     """
-    def __init__(self, var_reads, ref_reads, K):
+    def __init__(self, var_reads, ref_reads, K, kmeans=False):
         # Data
         self.var_reads = var_reads
         self.ref_reads = ref_reads
@@ -113,6 +113,25 @@ class VariationalModel(object):
 
         self.ELBO = None
 
+        # if kmeans:
+        #     self.VAFs = np.true_divide(self.var_reads, self.var_reads + self.ref_reads)
+        #     kmeans = KMeans(n_clusters=K / 2, random_state=0).fit(self.VAFs.T)
+        #     khard_assgns = kmeans.labels_
+        #     # Initialize r
+        #     self.r = np.zeros((self.N, self.K))
+        #     for i, label in enumerate(khard_assgns):
+        #         self.r[i][label] = 1
+        #
+        #     # Initialize suff stats
+        #     self.calc_suff_stats()
+        #
+        #     # Initialize global params
+        #     self.calc_global_params()
+        #
+        #     # Initialize local params
+        #     self.calc_local_params()
+        #     ipdb.set_trace()
+
     def calc_local_params(self):
         # ObsModel: Calculate the variational likelihood matrix E[ln p(x_n | a_k, b_k)]
         for n in xrange(self.N):
@@ -140,7 +159,6 @@ class VariationalModel(object):
         # TODO: Check for numerical stability
         self.r = self.weights.copy()
         inplaceExpAndNormalizeRows(self.r)
-
         # print "Calculated local params."
         return
 
@@ -262,7 +280,7 @@ class MultiBinomCAVI(object):
     """
     CAVI for the MultiBinomMixtureModel, with DP allocation.
     """
-    def __init__(self, var_reads, ref_reads, K=None, cvg_threshold=1e-3):
+    def __init__(self, var_reads, ref_reads, K=None, cvg_threshold=1e-3, kmeans=False):
         # Data
         self.var_reads = np.asarray(var_reads)
         self.ref_reads = np.asarray(ref_reads)
@@ -274,7 +292,7 @@ class MultiBinomCAVI(object):
             self.K = K
 
         # Initialize the model
-        self.variational_model = VariationalModel(self.var_reads, self.ref_reads, self.K)
+        self.variational_model = VariationalModel(self.var_reads, self.ref_reads, self.K, kmeans=False)
 
         # Tuning parameters
         self.cvg_threshold = cvg_threshold
