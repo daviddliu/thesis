@@ -12,9 +12,13 @@ class ClusteringModule(object):
         Peforms clustering on multiple clustering objects, and provides summary statistics.
         """
 
-    def __init__(self, clustering_type, data_dir="data/simulated/"):
+    def __init__(self, clustering_type, data_dir="data/simulated/", kmeans=False):
+        self.kmeans = kmeans
         self.clustering_type = clustering_type
-        self.output_dir = "%s_results/" % self.clustering_type
+        if kmeans:
+            self.output_dir = "%s_results/" % (self.clustering_type + "_kmeans")
+        else:
+            self.output_dir = "%s_results/" % self.clustering_type
         if not os.path.exists(self.output_dir):
             os.mkdir(self.output_dir)
         self.data_dir = data_dir
@@ -35,12 +39,14 @@ class ClusteringModule(object):
                 os.mkdir(results_dir)
 
             if self.clustering_type == "MultiBinom":
-                clustering_object = MultiBinomMixtureModel(results_dir, data_path, sim_num)
+                clustering_object = MultiBinomMixtureModel(results_dir, data_path, sim_num, kmeans=self.kmeans)
             else:
                 raise Exception("Invalid clustering type specified. Your only option is MultiBinom.")
 
             clustering_object.perform_clustering()
+            clustering_object.pool_reads(true_reads=False)
             clustering_object.calculate_performance()
+            clustering_object.write_output()
             clustering_object.generate_indiv_plot()
             clustering_object.evaluate_on_ancestree()
 

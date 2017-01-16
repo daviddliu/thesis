@@ -19,17 +19,18 @@ def run_single(data_dir="data/simulated/Cov_1000_Samples_4_Mut_100_Clone_10_PCR_
     clustering_model.calculate_performance()
     print "ARI: %f" % clustering_model.ARI
     print "Number clusters: %d" % clustering_model.CAVI.num_clusters
+    clustering_model.write_output()
     clustering_model.generate_indiv_plot()
 
 """
 Run on all data code.
 """
 def run_all():
-    clustering_module = ClusteringModule("MultiBinom")
+    clustering_module = ClusteringModule("MultiBinom", kmeans=True)
     clustering_module.run_on_all()
     clustering_module.generate_violin_plots()
 
 
-# run_all()
+run_all()
 
-run_single()
+# run_single()

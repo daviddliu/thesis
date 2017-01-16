@@ -113,24 +113,25 @@ class VariationalModel(object):
 
         self.ELBO = None
 
-        # if kmeans:
-        #     self.VAFs = np.true_divide(self.var_reads, self.var_reads + self.ref_reads)
-        #     kmeans = KMeans(n_clusters=K / 2, random_state=0).fit(self.VAFs.T)
-        #     khard_assgns = kmeans.labels_
-        #     # Initialize r
-        #     self.r = np.zeros((self.N, self.K))
-        #     for i, label in enumerate(khard_assgns):
-        #         self.r[i][label] = 1
-        #
-        #     # Initialize suff stats
-        #     self.calc_suff_stats()
-        #
-        #     # Initialize global params
-        #     self.calc_global_params()
-        #
-        #     # Initialize local params
-        #     self.calc_local_params()
-        #     ipdb.set_trace()
+        if kmeans:
+            self.VAFs = np.true_divide(self.var_reads, self.var_reads + self.ref_reads)
+            kmeans = KMeans(n_clusters=K / 2, random_state=0).fit(self.VAFs.T)
+            khard_assgns = kmeans.labels_
+            # Initialize r
+            for i, label in enumerate(khard_assgns):
+                self.r[i][label] = 1
+
+            # Initialize suff stats
+            self.calc_suff_stats()
+
+            # Initialize global params
+            self.calc_global_params()
+
+            # Initialize local params
+            self.calc_local_params()
+            # ipdb.set_trace()
+
+        self.memoizer = {}
 
     def calc_local_params(self):
         # ObsModel: Calculate the variational likelihood matrix E[ln p(x_n | a_k, b_k)]
@@ -280,27 +281,22 @@ class MultiBinomCAVI(object):
     """
     CAVI for the MultiBinomMixtureModel, with DP allocation.
     """
-    def __init__(self, var_reads, ref_reads, K=None, cvg_threshold=1e-3, kmeans=False):
+    def __init__(self, var_reads, ref_reads, K=None, cvg_threshold=None, kmeans=None):
         # Data
         self.var_reads = np.asarray(var_reads)
         self.ref_reads = np.asarray(ref_reads)
 
-        # Default K is the number of data points
-        if not K:
-            self.K = self.var_reads.shape[1]
-        else:
-            self.K = K
-
-        # Initialize the model
-        self.variational_model = VariationalModel(self.var_reads, self.ref_reads, self.K, kmeans=False)
-
         # Tuning parameters
         self.cvg_threshold = cvg_threshold
+        self.K = K
 
         # Params
         self.cluster_assgns = None
         self.cluster_params = None
         self.num_clusters = None
+
+        # Initialize the model
+        self.variational_model = VariationalModel(self.var_reads, self.ref_reads, self.K, kmeans=kmeans)
 
     def run(self):
         print "Initializing..."
@@ -326,6 +322,7 @@ class MultiBinomCAVI(object):
                 is_converged = True
             prev_bound = new_ELBO
 
+        # TODO: Don't forget to re-index the alpha, beta, cluster params.
         self.cluster_assgns, self.cluster_params, self.num_clusters = self.variational_model.convert_to_params()
         print "Finished CAVI."
         return

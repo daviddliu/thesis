@@ -15,49 +15,13 @@
   <component name="ExecutionTargetManager" SELECTED_TARGET="default_target" />
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="clustering_object.py" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/clustering_object.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1349">
-              <caret line="246" column="59" lean-forward="false" selection-start-line="246" selection-start-column="59" selection-end-line="246" selection-end-column="59" />
-              <folding>
-                <element signature="e#0#19#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
       <file leaf-file-name="MultiBinomMixtureModel.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/MultiBinomMixtureModel.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="225">
-              <caret line="15" column="34" lean-forward="false" selection-start-line="15" selection-start-column="34" selection-end-line="15" selection-end-column="34" />
+            <state relative-caret-position="360">
+              <caret line="24" column="34" lean-forward="false" selection-start-line="24" selection-start-column="34" selection-end-line="24" selection-end-column="34" />
               <folding>
                 <element signature="e#0#46#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="run_clustering.py" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/run_clustering.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="510">
-              <caret line="34" column="12" lean-forward="false" selection-start-line="34" selection-start-column="12" selection-end-line="34" selection-end-column="12" />
-              <folding>
-                <element signature="e#0#36#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="clustering_module.py" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/clustering_module.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="435">
-              <caret line="29" column="42" lean-forward="false" selection-start-line="29" selection-start-column="42" selection-end-line="29" selection-end-column="42" />
-              <folding>
-                <element signature="e#0#16#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -66,10 +30,34 @@
       <file leaf-file-name="CAVI.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/CAVI.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="210">
-              <caret line="294" column="99" lean-forward="true" selection-start-line="294" selection-start-column="99" selection-end-line="294" selection-end-column="99" />
+            <state relative-caret-position="269">
+              <caret line="190" column="51" lean-forward="true" selection-start-line="190" selection-start-column="51" selection-end-line="190" selection-end-column="51" />
               <folding>
                 <element signature="e#0#18#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="run_clustering.py" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/run_clustering.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="420">
+              <caret line="28" column="4" lean-forward="false" selection-start-line="28" selection-start-column="4" selection-end-line="28" selection-end-column="4" />
+              <folding>
+                <element signature="e#0#36#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="clustering_object.py" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/clustering_object.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="521">
+              <caret line="226" column="41" lean-forward="true" selection-start-line="226" selection-start-column="41" selection-end-line="226" selection-end-column="41" />
+              <folding>
+                <element signature="e#0#19#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -86,7 +74,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>output_path</find>
       <find>self.data_dir</find>
       <find>ref_reads</find>
       <find>reads_matrix</find>
@@ -95,8 +82,17 @@
       <find>self.xvar</find>
       <find>self.xref</find>
       <find>write</find>
-      <find>ipdb</find>
       <find>perform_clustering</find>
+      <find>output_path</find>
+      <find>self.cluster</find>
+      <find>clustering_type</find>
+      <find>output_dir</find>
+      <find>ipdb</find>
+      <find>kmeans</find>
+      <find>self.output_path</find>
+      <find>clu</find>
+      <find>ip</find>
+      <find>threshold</find>
     </findStrings>
     <replaceStrings>
       <replace>self.Sxvar</replace>
@@ -108,10 +104,10 @@
       <list>
         <option value="$PROJECT_DIR$/ReadsMatrix.py" />
         <option value="$PROJECT_DIR$/util.py" />
-        <option value="$PROJECT_DIR$/clustering_object.py" />
-        <option value="$PROJECT_DIR$/clustering_module.py" />
         <option value="$PROJECT_DIR$/run_clustering.py" />
+        <option value="$PROJECT_DIR$/clustering_module.py" />
         <option value="$PROJECT_DIR$/MultiBinomMixtureModel.py" />
+        <option value="$PROJECT_DIR$/clustering_object.py" />
         <option value="$PROJECT_DIR$/CAVI.py" />
       </list>
     </option>
@@ -363,48 +359,48 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/clustering_module.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="435">
-          <caret line="29" column="42" lean-forward="false" selection-start-line="29" selection-start-column="42" selection-end-line="29" selection-end-column="42" />
+        <state relative-caret-position="249">
+          <caret line="21" column="22" lean-forward="false" selection-start-line="21" selection-start-column="22" selection-end-line="21" selection-end-column="22" />
           <folding>
             <element signature="e#0#16#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/clustering_object.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1349">
-          <caret line="246" column="59" lean-forward="false" selection-start-line="246" selection-start-column="59" selection-end-line="246" selection-end-column="59" />
-          <folding>
-            <element signature="e#0#19#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/MultiBinomMixtureModel.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="225">
-          <caret line="15" column="34" lean-forward="false" selection-start-line="15" selection-start-column="34" selection-end-line="15" selection-end-column="34" />
-          <folding>
-            <element signature="e#0#46#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/run_clustering.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="510">
-          <caret line="34" column="12" lean-forward="false" selection-start-line="34" selection-start-column="12" selection-end-line="34" selection-end-column="12" />
+        <state relative-caret-position="420">
+          <caret line="28" column="4" lean-forward="false" selection-start-line="28" selection-start-column="4" selection-end-line="28" selection-end-column="4" />
           <folding>
             <element signature="e#0#36#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/MultiBinomMixtureModel.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="360">
+          <caret line="24" column="34" lean-forward="false" selection-start-line="24" selection-start-column="34" selection-end-line="24" selection-end-column="34" />
+          <folding>
+            <element signature="e#0#46#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/clustering_object.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="521">
+          <caret line="226" column="41" lean-forward="true" selection-start-line="226" selection-start-column="41" selection-end-line="226" selection-end-column="41" />
+          <folding>
+            <element signature="e#0#19#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/CAVI.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="210">
-          <caret line="294" column="99" lean-forward="true" selection-start-line="294" selection-start-column="99" selection-end-line="294" selection-end-column="99" />
+        <state relative-caret-position="269">
+          <caret line="190" column="51" lean-forward="true" selection-start-line="190" selection-start-column="51" selection-end-line="190" selection-end-column="51" />
           <folding>
             <element signature="e#0#18#0" expanded="true" />
           </folding>
