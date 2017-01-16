@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.1415926-2.5-1.40.14 (TeX Live 2013) (format=pdflatex 2013.5.30)  13 JAN 2017 13:34
+This is pdfTeX, Version 3.1415926-2.5-1.40.14 (TeX Live 2013) (format=pdflatex 2013.5.30)  15 JAN 2017 16:10
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -678,51 +678,97 @@ Package lastpage Info: Please have a look at the pageslts package at
 (lastpage)             ! on input line 186.
  [1
 
-{/usr/local/texlive/2013/texmf-var/fonts/map/pdftex/updmap/pdftex.map}] [2]
-<multi_pgm.png, id=88, 307.1475pt x 229.8186pt>
+{/usr/local/texlive/2013/texmf-var/fonts/map/pdftex/updmap/pdftex.map}]
+
+LaTeX Warning: Reference `fig:GM' on page 2 undefined on input line 222.
+
+
+LaTeX Warning: Reference `LastPage' on page 2 undefined on input line 224.
+
+[2] <multi_pgm.png, id=30, 307.1475pt x 229.8186pt>
 File: multi_pgm.png Graphic file (type png)
  <use multi_pgm.png>
 Package pdftex.def Info: multi_pgm.png used on input line 232.
 (pdftex.def)             Requested size: 307.14674pt x 229.81804pt.
- [3 <./multi_pgm.png>]
+
+
+LaTeX Warning: Reference `LastPage' on page 3 undefined on input line 266.
+
+[3 <./multi_pgm.png>]
 
 LaTeX Font Warning: Font shape `OT1/cmr/bx/sc' undefined
 (Font)              using `OT1/cmr/bx/n' instead on input line 275.
 
-[4] [5]
-Overfull \hbox (104.79466pt too wide) in paragraph at lines 377--377
+
+LaTeX Warning: Reference `LastPage' on page 4 undefined on input line 307.
+
+[4]
+
+LaTeX Warning: Reference `LastPage' on page 5 undefined on input line 339.
+
+[5]
+
+LaTeX Warning: Reference `LastPage' on page 6 undefined on input line 371.
+
+[6]
+
+LaTeX Warning: Reference `LastPage' on page 7 undefined on input line 404.
+
+[7]
+Overfull \hbox (102.36133pt too wide) in paragraph at lines 483--483
 [] 
  []
 
 
-Overfull \hbox (108.1176pt too wide) in paragraph at lines 413--413
-[] 
- []
+LaTeX Warning: Reference `LastPage' on page 8 undefined on input line 483.
 
-[6] [7] 
-AED: lastpage setting LastPage
 [8]
-Package atveryend Info: Empty hook `BeforeClearDocument' on input line 456.
-Package atveryend Info: Empty hook `AfterLastShipout' on input line 456.
- (./probclustering.aux)
-Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 456.
-Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 456.
-Package rerunfilecheck Info: File `probclustering.out' has not changed.
-(rerunfilecheck)             Checksum: 2889273336366620E72B2C8AACC0AE1C;981.
 
+LaTeX Warning: Reference `LastPage' on page 9 undefined on input line 516.
+
+[9]
+
+Package lastpage Warning: Rerun to get the references right on input line 530.
+
+
+AED: lastpage setting LastPage
+
+LaTeX Warning: Reference `LastPage' on page 10 undefined on input line 530.
+
+[10]
+Package atveryend Info: Empty hook `BeforeClearDocument' on input line 530.
+Package atveryend Info: Empty hook `AfterLastShipout' on input line 530.
+ (./probclustering.aux)
+Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 530.
+Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 530.
+
+
+Package rerunfilecheck Warning: File `probclustering.out' has changed.
+(rerunfilecheck)                Rerun to get outlines right
+(rerunfilecheck)                or use package `bookmark'.
+
+Package rerunfilecheck Info: Checksums for `probclustering.out':
+(rerunfilecheck)             Before: D41D8CD98F00B204E9800998ECF8427E;0
+(rerunfilecheck)             After:  D37F2E66E6E415D858E8112DC02DA401;1291.
 
 LaTeX Font Warning: Some font shapes were not available, defaults substituted.
 
-Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 456.
+
+LaTeX Warning: There were undefined references.
+
+
+LaTeX Warning: Label(s) may have changed. Rerun to get cross-references right.
+
+Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 530.
  ) 
 Here is how much of TeX's memory you used:
- 10706 strings out of 493315
- 153958 string characters out of 6137904
- 306514 words of memory out of 5000000
- 13938 multiletter control sequences out of 15000+600000
+ 10701 strings out of 493315
+ 153941 string characters out of 6137904
+ 307235 words of memory out of 5000000
+ 13922 multiletter control sequences out of 15000+600000
  16537 words of font info for 62 fonts, out of 8000000 for 9000
  957 hyphenation exceptions out of 8191
- 44i,23n,43p,849b,479s stack positions out of 5000i,500n,10000p,200000b,80000s
+ 44i,22n,43p,849b,467s stack positions out of 5000i,500n,10000p,200000b,80000s
 </usr/local/texlive/2013/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx10.pfb
 ></usr/local/texlive/2013/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx12.pfb>
 </usr/local/texlive/2013/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx8.pfb></
@@ -742,10 +788,10 @@ ive/2013/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb></usr/local/texli
 ve/2013/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy8.pfb></usr/local/texlive
 /2013/texmf-dist/fonts/type1/public/amsfonts/cm/cmti10.pfb></usr/local/texlive/
 2013/texmf-dist/fonts/type1/public/amsfonts/symbols/msbm10.pfb>
-Output written on probclustering.pdf (8 pages, 248430 bytes).
+Output written on probclustering.pdf (10 pages, 251619 bytes).
 PDF statistics:
- 230 PDF objects out of 1000 (max. 8388607)
- 197 compressed objects within 2 object streams
- 54 named destinations out of 1000 (max. 500000)
- 118 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 198 PDF objects out of 1000 (max. 8388607)
+ 163 compressed objects within 2 object streams
+ 65 named destinations out of 1000 (max. 500000)
+ 6 words of extra memory for PDF output out of 10000 (max. 10000000)
 

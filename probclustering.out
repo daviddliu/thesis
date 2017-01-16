@@ -5,10 +5,14 @@
 \BOOKMARK [2][-]{section*.6}{The ELBO}{section*.5}% 5
 \BOOKMARK [2][-]{section*.7}{The mean-field variational family}{section*.5}% 6
 \BOOKMARK [2][-]{section*.8}{Mean-field assumptions break dependency to give us coordinate ascent}{section*.5}% 7
-\BOOKMARK [1][-]{section*.10}{Variational Inference on Multi-sample Binomial Model}{}% 8
-\BOOKMARK [2][-]{section*.11}{Exponential factorizations}{section*.10}% 9
-\BOOKMARK [3][-]{section*.12}{Exponential factorization of data model}{section*.11}% 10
-\BOOKMARK [2][-]{section*.13}{Prior exponential factorization}{section*.10}% 11
-\BOOKMARK [2][-]{section*.16}{Coordinate ascent equations}{section*.10}% 12
-\BOOKMARK [1][-]{section*.27}{Implementation}{}% 13
-\BOOKMARK [1][-]{section*.28}{Evaluating results}{}% 14
+\BOOKMARK [2][-]{section*.10}{Exponential family distributions give us a general CAVI formula}{section*.5}% 8
+\BOOKMARK [1][-]{section*.11}{Variational Inference on Multi-sample Binomial Model}{}% 9
+\BOOKMARK [2][-]{section*.12}{The model and its ELBO}{section*.11}% 10
+\BOOKMARK [2][-]{section*.13}{Multi-sample Binomial coordinate ascent}{section*.11}% 11
+\BOOKMARK [3][-]{section*.14}{Allocation model}{section*.13}% 12
+\BOOKMARK [3][-]{section*.15}{Observation model}{section*.13}% 13
+\BOOKMARK [3][-]{section*.16}{Exponential factorization of data model}{section*.13}% 14
+\BOOKMARK [2][-]{section*.17}{Sufficient statistics}{section*.11}% 15
+\BOOKMARK [3][-]{section*.18}{Obs Model Likelihoods}{section*.17}% 16
+\BOOKMARK [1][-]{section*.19}{Implementation}{}% 17
+\BOOKMARK [1][-]{section*.20}{Evaluating results}{}% 18

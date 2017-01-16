@@ -255,7 +255,7 @@ As described in (Blei 2006), the data arises in the following manner, with a sti
 	\item Draw $\phi_k | H \sim H^k$, \hspace{1cm} $k = \{1, 2, \ldots\}$
 	\item For the $n$th data point:
 	\begin{enumerate}
-		\item Draw $z_n | \{\pi_1, \pi_2, \ldots\} \sim \mathrm{Mult}(\pi{\mathbf{w}})$.
+		\item Draw $z_n | \{\pi_1, \pi_2, \ldots\} \sim \mathrm{Mult}(\pi(\mathbf{w}))$.
 		\item Draw $\mathbf{w_n} | z_n \sim p(x_n | \phi_n)$.
 	\end{enumerate}
 \end{enumerate}
@@ -292,8 +292,8 @@ However, (4) requires us to compute the log evidence (which is intractable over 
 Instead, we optimize an objective function which is not dependent on $\log p(\bx)$. We call this the evidence lower bound (\textsc{ELBO}), which is equal to the negative \textsc{KL}-divergence plus the $\log$ evidence.
 \begin{align}
   \ELBO(q) =
-  \E{\log p(\bz, \bx)} -
-  \E{\log q(\bz)}.
+  \E{[\log p(\bz, \bx)]} -
+  \E{[\log q(\bz)]}.
 \end{align}
 and thus we see that $\log p(\bx)$ is a constant with respect to $q$. The $\textsc{ELBO}$ gets its name from the fact that it is a lower bound for the $\log$ evidence. 
 
@@ -332,123 +332,196 @@ q^*_j(\bz_j) \propto \exp\left(\E_{-j}\left[\log p(\bx, \bz) \right]\right)
 \label{alg:cavi}
 \end{algorithm}
 
+\subsection{Exponential family distributions give us a general CAVI formula}
+
+If our posterior is in the exponential family, then the computation of coordinate ascent and ELBO can be generalized. Recall that a distribution is in exponential form if it can parameterized by $$f_X(x\mid\theta) = h(x) \exp \left (\theta^T \cdot T(x) -A(\theta)\right )$$
+where $T(x)$ is the sufficient statistic vector, $\theta$ is the natural parameter vector, and $A(\theta)$ is the cumulant. We keep the actual derivations to (Hughes 2015), but the intuition is that because the optimal variational updates are proportional to a $\exp(\E[\log(.)])$ then writing the distribution in exponential form reveals some dependencies that hold for all exponential family members.
+
+
+
 \section{Variational Inference on Multi-sample Binomial Model}
 
-\begin{lemma}
-The product of two exponential family functions is also exponential.
-\begin{proof}
-Exponential family functions can be parameterized by $$f_X(x\mid\theta) = h(x) \exp \left (\theta^T \cdot T(x) -A(\theta)\right ).$$ So suppose we have $f_1, f_2$ which are correspondingly parameterized. Note that $T(x)$ is the same because the sufficient statistic is invariant across a distribution. Then the product is
+\subsection{The model and its ELBO}
+
+We write the ELBO as a function of the data and latent variables:
+\begin{equation}
+	\begin{split}
+		\ELBO\left(q(\bx, \bz | \gamma, \alpha_0, \beta_0)\right) = &E_q[\log p(\mathbf{v} | \gamma)] + E_q[ \log p(\bm{\phi} | \alpha_0, \beta_0)] + \\ &\sum\limits_{n=1}^N \left( E_q[\log p(z_n | \mathbf{v})] + E_q[\log p(x_n | z_n)]\right) \\  &- E_q[\log q(\bz, \mathbf{v}, \bm{\phi})]
+	\end{split}
+\end{equation}
+where $\lambda$ represents the hyperparameter governing the stick-breaking process, and $\alpha_0, \beta_0$ are the hyperparameters governing the base beta distribution. Suppose that the joint distribution for the last term in the $\ELBO$ factors as follows:
+\begin{align}
+    q(\bz, \mathbf{v}, \bm{\phi}) &=
+\underbrace{\prod\limits_{k=1}^K q_{\tau_t}(\bm{\phi}_k)}_{\text{Observation parameters}} \times
+ \underbrace{\prod\limits_{k=1}^K q_{\gamma_t}(\mathbf{v}_k)}_{\text{Cluster proportions}} \times
+ \underbrace{\prod\limits_{n=1}^{N} q_{r_n}(z_n)}_{\text{Assignment of data to clusters}} \nonumber
+\end{align}
+
+Note that the cluster proportions and data assignments are dictated by the Dirichlet Process|we call this the allocation model. On the other hand, the observation parameters vary depending on the structure of the generative model|we call this the observation model. The equations relating to the allocation model are standard, and the theory is left to (Blei 2006, Hughes 2015). Here we derive the form of the  $q(\bm{\phi}_k)$ is a function of the \textbf{vector} $\bm{\phi_k}$, as the observation model is specific to our multi-sample binomial model.
+
+We note that for an individual allelic site in a sample, the data likelihood is binomial. With a beta prior, we know that the resulting posterior for $q(\bm{\phi}_{mk})$ is conjugate to the binomial, and thus $q(\bm{\phi}_{mk}) \sim \mathrm{Beta}(\bm{\phi}_k | \alpha_{mk}, \beta_{mk})$ where $\alpha_{mk}, \beta_{mk}$ are variational parameters. Because reads across samples at a site are assumed to be independent, then we have 
 \begin{align*}
-f_1 \times f_2 &= h_1(x) \exp \left (\theta_1^T \cdot T(x) -A(\theta_1)\right ) \times h_2(x) \exp \left (\theta_2^T \cdot T(x) -A(\theta_2)\right )\\
-			   &= \tilde{h}(x) \exp \left ((\theta_1 + \theta_2)^T \cdot T(x) -\tilde{A}(\theta_1, \theta+2)\right )
+q(\bm{\phi}_k)  &= \prod\limits_{m=1}^M q(\bm{\phi}_{mk}) \\
+				&= \prod\limits_{m=1}^M \mathrm{Beta}(\bm{\phi}_k | \alpha_{mk}, \beta_{mk})
 \end{align*}
-which is also an exponential family distribution.
-\end{proof}
-\end{lemma}
+
+\subsection{Multi-sample Binomial coordinate ascent}
+\subsubsection{Allocation model}
+The coordinate ascent equations for the allocation model are standard (Blei 2006), as they follow from the fact that the stick-breaking process is in the exponential family. The allocation model has variational parameters $\{\eta_{k0}, \eta_{k1}\}_{k=1}^K$ for the cluster proportions and $\{\hat{r}_{nk}\}_{n=1, k=1}^{N, K}$ for the cluster responsibilities. On each iteration, the coordinate update is
+\begin{align}
+\eta_{k1} &= 1 + \sum_n \hat{r}_{nk} = 1 + N_k \\
+\eta_{k0} &= \gamma + \sum_n \sum_{j=k+1}^K \hat{r}_{nj} = N_k^>\\
+\hat{r}_{nk} &\propto \exp(S_k) \\
+\intertext{for $n = 1, \ldots, N$, $k=1, \ldots, K$, and where}
+S_k &= \E_q[\log \bm{v}_k] + \sum_{i=1}^{k-1} \E_q \log(1 - \bm{v}_i) + \E_q[\log p(x_n | \alpha_{nk}, \beta_{nk})]
+\intertext{and}
+\E_q[\log \bm{v}_i] &= \Psi(\eta_{k0}) - \Psi(\eta_{k0} +\eta_{k1}) \\
+\E_q[\log(1 -  \bm{v}_i)] &= \Psi(\eta_{k1}) - \Psi(\eta_{k0} +\eta_{k1})
+\end{align}
+The digamma functions come from the fact that derivative of the cumulant is the expectation, and the cumulant of a beta has gamma functions (http://math.stackexchange.com/questions/1603172/digamma-function-in-expectation). Since the $\hat{r}_{nk}$ sum to 1 over $n=1, \ldots, N$ then we renormalize at every step as well.
+\subsubsection{Observation model}
+Following the derivations in (Hughes 2015), we derive the coordinate ascent equations for our observation model, taking advantage of the fact that $q(\bm{\phi}_k)$ is in the exponential family, which we show below.
+
 \begin{claim}
-The (likelihood of $\bx | \bz?$) is also of the exponential family.
+$q(\bm{\phi}_k)$ is in the exponential family.
 \begin{proof}
-    Each binomial likelihood is exponential. Then the claim is trivial by lemma 1.
+We know that
+\begin{align*}
+q(\bm{\phi}_k)  = \prod\limits_{m=1}^M q(\bm{\phi}_{mk}) = \prod\limits_{m=1}^M \mathrm{Beta}(\bm{\phi}_k | \alpha_{mk}, \beta_{mk}).
+\end{align*}
+The beta distribution is in the exponential family, with parameterization 
+\begin{align*}
+\begin{split}
+\mathrm{Beta}(\bm{\phi}_k |  \alpha_{mk}, \beta_{mk}) =  \frac{1}{\phi_{mk}(1 - \phi_{mk})} \exp \bigg(
+		\begin{bmatrix}
+			\log\phi_{mk} & \log(1 - \phi_{mk})
+		\end{bmatrix}
+		\begin{bmatrix}
+			\alpha_{mk} \\ \beta_{mk}
+		\end{bmatrix} \\
++ \log \Gamma(\alpha_{mk} + \beta_{mk}) - \log \Gamma(\alpha_{mk}) - \log\Gamma(\beta_{mk}) \bigg)
+\end{split}
+\end{align*}
+and thus $q(\bm{\phi}_k)$ is in the exponential family with the form
+\begin{align*}
+q(\bm{\phi}_k) = \left(\prod\limits_{m=1}^M \frac{1}{\phi_{mk}(1 - \phi_{mk})} \right) \exp\bigg(
+			\begin{bmatrix}
+				\begin{bmatrix}
+				 \log\phi_{1k} & \log(1 - \phi_{1k} )
+				\end{bmatrix} & \cdots &
+				\begin{bmatrix}
+				 \log\phi_{Mk} & \log(1 - \phi_{Mk})
+				\end{bmatrix}
+			\end{bmatrix}
+			\begin{bmatrix}
+				\begin{bmatrix}
+				\alpha_{1k} \\ \beta_{1k} 
+				\end{bmatrix} \\
+				\vdots \\
+				\begin{bmatrix}
+				\alpha_{Mk} \\ \beta_{Mk}
+				\end{bmatrix}
+			\end{bmatrix} \\
+			+ \sum\limits_{m=1}^M \log \Gamma(\alpha_{mk} + \beta_{mk}) - \log \Gamma(\alpha_{mk}) - \log\Gamma(\beta_{mk}) \bigg)
+\end{align*}
+where we have abused notation to show the tuple nature of the sufficient statistics. Thus, for our variational distribution $q(\bm{\phi}_k)$ we have
+\begin{align}
+\text{Natural parameters} &=  			\begin{bmatrix}
+				\begin{bmatrix}
+				\alpha_{1k} \\ \beta_{1k} 
+				\end{bmatrix} \\
+				\vdots \\
+				\begin{bmatrix}
+				\alpha_{Mk} \\ \beta_{Mk}
+				\end{bmatrix}
+			\end{bmatrix} \\
+\text{Cumulant} &= \sum\limits_{m=1}^M \log \Gamma(\alpha_{mk} + \beta_{mk}) - \log \Gamma(\alpha_{mk}) - \log\Gamma(\beta_{mk}) \qedhere
+\end{align}
 \end{proof}
 \end{claim}
 
-\subsection{Exponential factorizations}
 \subsubsection{Exponential factorization of data model}
 \vspace{-0.5cm}
 \begin{align}
 p(\bx_n | \bz_n) &= \prod\limits_{m=1}^M \mathrm{Bin}(v_{mn}, \phi_{mn}; d_{mn}) \nonumber \\
-				 &= \prod\limits_{m=1}^M \exp\left(v_{mn} \log\left(\frac{\phi_{mn}}{1 - \phi_{mn}}\right) + d_{mn} \log(1 - \phi_{mn}) \right) \nonumber \\
-				 \begin{split}
+				 &= \prod\limits_{m=1}^M \exp\left(v_{mn} \log\left(\frac{\phi_{mn}}{1 - \phi_{mn}}\right) + d_{mn} \log(1 - \phi_{mn}) \right) \nonumber \\				 		
+\begin{split}
 				&= \left( \prod\limits_{m=1}^M \binom{d_{mn}}{v_{mn}} \right)
-				\exp\left( 
+				\exp\bigg( 
 \begin{bmatrix}
          \log\left(\frac{\phi_{1n}}{1 - \phi_{1n}}\right) & \cdots & \log\left(\frac{\phi_{Mn}}{1 - \phi_{Mn}}\right)
         \end{bmatrix}\begin{bmatrix}
          v_{1n} \\ \vdots \\ v_{Mn}
-        \end{bmatrix}  +
+        \end{bmatrix}  + \\
 \begin{bmatrix}
          \log\left(1 - \phi_{1n}\right) & \cdots & \log\left(1 - \phi_{Mn}\right)
         \end{bmatrix}      
                 \begin{bmatrix}
          d_{1n} \\ \vdots \\ d_{Mn}
         \end{bmatrix} 
-        \right)
-        \end{split}
-\end{align}
-so that the natural parameter is a vector
-\begin{align}
-\bm{\eta} = \begin{bmatrix}
-         \log\left(\frac{\phi_{1n}}{1 - \phi_{1n}}\right) & \cdots & \log\left(\frac{\phi_{Mn}}{1 - \phi_{Mn}}\right)
-        \end{bmatrix}
-\end{align}
-and sufficient statistics 
-\[
-T(\bx_n) = 
- \begin{bmatrix}
-         v_{1n} \\ \vdots \\ v_{Mn}
-        \end{bmatrix}
-\]
-\subsection{Prior exponential factorization}
-\vspace{-0.5cm}
-\begin{align}
-p(\bm{\phi}) &= \prod\limits_{k=1}^K p(\bm{\phi_k}) \nonumber \\
-			&= \prod\limits_{k=1}^K \prod\limits_{m=1}^M \mathrm{Beta}(a_0, b_0) \tag{$a_0 = b_0 = \frac{1}{2}$} \\
-			&= \prod\limits_{k=1}^K \prod\limits_{m=1}^M \frac{1}{\phi_{mk}(1 - \phi_{mk})} \exp\left(\alpha_0 \log\phi_{mk} + \beta_0 \log(1 - \phi_{mk}) + \log \Gamma(\alpha_0 + \beta_0) - \log \Gamma(\alpha_0) - \log\Gamma(\beta_0)\right) \nonumber \\
-			&= \left(\prod\limits_{k=1}^K \prod\limits_{m=1}^M \frac{1}{\phi_{mk}(1 - \phi_{mk})} \right) \exp\left(
-			\begin{bmatrix}
-				[\alpha_0 & \beta_0] \\
-				\vdots &\vdots \\
-				[\alpha_0 & \beta_0]
-			\end{bmatrix}
+        \bigg)
+        \end{split} \\
+&=    \left( \prod\limits_{m=1}^M \binom{d_{mn}}{v_{mn}} \right)
+			 \exp\bigg(
 			\begin{bmatrix}
 				\begin{bmatrix}
-				 \log\phi_{1k} \\ \log(1 - \phi_{1k} 
+				 v_{1n} &  d_{1n} )
 				\end{bmatrix} & \cdots &
 				\begin{bmatrix}
-				 \log\phi_{Mk} \\ \log(1 - \phi_{Mk} 
+				 v_{Mn} &  d_{Mn}
 				\end{bmatrix}
 			\end{bmatrix}
-			+ \text{the product of the beta logs}
-			\right)
+			\begin{bmatrix}
+				\begin{bmatrix}
+					\log\left(1 - \phi_{1n}\right) \\ \log\left(\frac{\phi_{1n}}{1 - \phi_{1n}}\right)
+				\end{bmatrix} \\
+				\vdots \\
+				\begin{bmatrix}
+					\log\left(1 - \phi_{Mn}\right) \\ \log\left(\frac{\phi_{Mn}}{1 - \phi_{Mn}}\right)
+				\end{bmatrix}
+			\end{bmatrix} \\
 \end{align}
-and here $a_0 = b_0 = \frac{1}{2}$ since we want the prior to be uniform over $[0,1]$.
-
-\subsection{Coordinate ascent equations}
-
- (Note that $\lambda$ is a hyperparameter such that $\lambda_1, \lambda_2$ chacterize the base distribution.)
-
-We write the ELBO as:
+so that the sufficient statistics 
 \begin{equation}
-	\begin{split}
-		\ELBO\left(q(\bx, \bz | \alpha, \lambda)\right) = &E_q[\log p(\mathbf{v} | \alpha)] + E_q[ \log p(\mathbf{\phi} | \lambda)] + \\ &\sum\limits_{n=1}^N \left( E_q[\log p(z_n | \mathbf{v})] + E_q[\log p(x_n | z_n)]\right) \\  &- E_q[\log q(\bz, \mathbf{v}, \mathbf{\phi})]
-	\end{split}
+T(\bx_n) = 
+\begin{bmatrix}
+				\begin{bmatrix}
+				 v_{1n} &  d_{1n}
+				\end{bmatrix} & \cdots &
+				\begin{bmatrix}
+				 v_{Mn} &  d_{Mn}
+				\end{bmatrix}
+			\end{bmatrix}
 \end{equation}
- 
- Suppose that the joint distribution for the last term in the $\ELBO$ factors as follows:
+
+Thus, following (Hughes 2015) we have the following coordinate ascent updates for the observation model: (natural parameter plus sufficient statistic $S_k^{var}$ or $S_k^{ref}$)
+\begin{align*}
+\alpha_{mk} =  (\alpha_0 - 1) + \sum_{n=1}^N \hat{r}_{nk} \begin{bmatrix} v_{1n} \\ \vdots \\ v_{Mn} \end{bmatrix} \\
+\beta_{mk} = (\beta_0 - 1) + \sum_{n=1}^N \hat{r}_{nk} \begin{bmatrix} d_{1n} \\ \vdots \\ d_{Mn} \end{bmatrix}
+\end{align*}
+
+\subsection{Sufficient statistics}
+Define 
 \begin{align}
-    q(\bz, \mathbf{v}, \mathbf{\phi}) &=
-\underbrace{\prod\limits_{k=1}^K q_{\tau_t}(\mathbf{\phi_k})}_{\text{Observation parameters}} \times
- \underbrace{\prod\limits_{k=1}^K q_{\gamma_t}(\mathbf{v_k})}_{\text{Cluster proportions}} \times
- \underbrace{\prod\limits_{n=1}^{N} q_{r_n}(z_n)}_{\text{Assignment of data to clusters}} \nonumber
+S_k &= \sum_{n=1}^N \hat{r}_{nk} s(x_n) = \sum_{n=1}^N \hat{r}_{nk} \begin{bmatrix}
+				\begin{bmatrix}
+				 v_{1n} &  d_{1n}
+				\end{bmatrix} & \cdots &
+				\begin{bmatrix}
+				 v_{Mn} &  d_{Mn}
+				\end{bmatrix}
+			\end{bmatrix} \\
+N_k &= \sum_{n=1}^N \hat{r}_{nk} \\
+N_k^> &= \sum_{k+1}^K N_k
 \end{align}
- where we have exponential family (uniform 0, 1), betas, and multinomials, respectively. 
- 
- digamma comes from derivative of the MGF http://math.stackexchange.com/questions/1603172/digamma-function-in-expectation.
- 
- Note that $q(\mathbf{\phi_k})$ is a function of the \textbf{vector} $\phi_k$, as it is the product of binomial distributions. 
- 
- From here, we follow some derivations in (Blei 2006, p.129) to derive the coordinate ascent equations. The variational factor updates are actually pretty simple. For $k \in \{1, \ldots, K\}$ and $n \in \{1, \ldots, N\}$:
-\begin{align}
-\gamma_{k, 1} = 1 + \sum_n r_{n, k} \tag{These are the stick-breaking betas} \\
-\gamma_{k, 2} = 	\alpha + \sum_n \sum_{j= k + 1}^K r_{n, j} \tag{This is also for the stick-breaking betas} \\
-\tau_{k, 1} = \lambda_1 + \sum_n r_{n, k} x_n \tag{Look at exp defn on p125, this is for the cluster parameter from the base dist} \\
-\tau_{k, 2} = \lambda_2 + \sum_n r_{n, k} \tag{Also for the cluster parameter}\\
-r_{n, t} \propto \exp(S_t) \tag{For the cluster assignments}
-\end{align}
-where the details of calculating $S_k$ are on page 129 of (Blei 2006). 
+
+\subsubsection{Obs Model Likelihoods}
+\begin{align*}
+\E_q[\log p(x_n | 
+\end{align*}
 
 \section{Implementation}
-This will either be implemented in Python or R.
+This has been implemented in Python.
 
 \section{Evaluating results}
 
