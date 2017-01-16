@@ -1,5 +1,6 @@
 import numpy as np
-from scipy.special import digamma
+from scipy.special import digamma, gammaln
+from scipy.stats import entropy
 from util import log_choose, inplaceExpAndNormalizeRows, calcBetaExpectations
 from sklearn.preprocessing import normalize
 import ipdb
@@ -82,7 +83,7 @@ class VariationalModel(object):
         ## Prior
         # TODO: Not sure why. But it is this in bnpy. I think gamma0 is alpha.
         self.gamma1 = 1.0
-        self.gamma0 = 5.0
+        self.gamma0 = 1.5
         ## Posterior
         self.eta1 = np.full(K, self.gamma1)
         self.eta0 = np.full(K, self.gamma0)
@@ -103,16 +104,17 @@ class VariationalModel(object):
         self.beta = np.ones(ref_reads.shape)
         # Sufficient statistics
         # Gets initialized when calculating suff stats.
-        self.xvar = np.zeros(var_reads.shape)
-        self.xref = np.zeros(ref_reads.shape)
+        self.Sxvar = np.zeros(var_reads.shape)
+        self.Sxref = np.zeros(ref_reads.shape)
 
         self.Elog_data_likelihood = np.empty((self.N, self.K))
         self.Elog_stick_likelihood = np.empty((self.N, self.K))
         self.weights = np.empty((self.N, self.K))
 
+        self.ELBO = None
+
     def calc_local_params(self):
         # ObsModel: Calculate the variational likelihood matrix E[ln p(x_n | a_k, b_k)]
-        # TODO: Note that these are negative...?
         for n in xrange(self.N):
             for k in xrange(self.K):
                 elog_likelihood = 0
@@ -120,10 +122,9 @@ class VariationalModel(object):
                     var_reads = self.var_reads[m][n]
                     ref_reads = self.ref_reads[m][n]
                     total_reads = var_reads + ref_reads
-                    elog_likelihood += self.r[m][k] * (log_choose(total_reads, var_reads)
+                    elog_likelihood += (log_choose(total_reads, var_reads)
                                         + var_reads * (digamma(self.alpha[m][k]) - digamma(self.alpha[m][k] + self.beta[m][k]))
                                         + ref_reads * (digamma(self.beta[m][k]) - digamma(self.alpha[m][k] + self.beta[m][k])))
-
                 self.Elog_data_likelihood[n][k] = elog_likelihood
         # AllocModel
         ## Calculate weights
@@ -136,10 +137,11 @@ class VariationalModel(object):
         self.weights = self.Elog_stick_likelihood + self.Elog_data_likelihood
 
         ## Calculate responsibilities
+        # TODO: Check for numerical stability
         self.r = self.weights.copy()
         inplaceExpAndNormalizeRows(self.r)
 
-        print "Calculated local params."
+        # print "Calculated local params."
         return
 
     def calc_suff_stats(self):
@@ -150,8 +152,8 @@ class VariationalModel(object):
             for n in xrange(self.N):
                 var_weighted_sum_k += self.r[n][k] * self.var_reads[:, n]
                 ref_weighted_sum_k += self.r[n][k] * self.ref_reads[:, n]
-            self.xvar[:, k] = var_weighted_sum_k
-            self.xref[:, k] = ref_weighted_sum_k
+            self.Sxvar[:, k] = var_weighted_sum_k
+            self.Sxref[:, k] = ref_weighted_sum_k
 
         # Update Nk
         self.Nk = np.sum(self.r, axis=0)
@@ -162,18 +164,62 @@ class VariationalModel(object):
             total_Nk -= self.Nk[k+1]
         self.Nk_gt[self.K - 1] = 0
 
-        print "Calculated suff stats."
+        # print "Calculated suff stats."
         return
 
     def calc_global_params(self):
         # ObsModel
-        self.alpha = (self.alpha0 - 1) + self.xvar
-        self.beta = (self.beta0 - 1) + self.xref
+        self.alpha = (self.alpha0 - 1) + self.Sxvar
+        self.beta = (self.beta0 - 1) + self.Sxref
         self.eta1 = self.gamma1 + self.Nk
         self.eta0 = self.gamma0 + self.Nk_gt
 
-        print "Calculated global params."
+        # print "Calculated global params."
         return
+
+
+    def calc_ELBO(self):
+        # L_obs
+        E_ln_data_likelihood = 0
+        for n in xrange(self.N):
+            for k in xrange(self.K):
+                E_ln_data_likelihood += self.r[n][k] * self.Elog_data_likelihood[n][k]
+
+        ## The flat prior means this contributes nothing.
+        E_ln_prior = 0
+
+        E_q_ln_prior = 0
+        for k in xrange(self.K):
+            for m in xrange(self.M):
+                alpha = self.alpha[m][k]
+                beta = self.beta[m][k]
+                E_q_ln_prior += (gammaln(alpha + beta) - gammaln(alpha) - gammaln(beta)
+                                    + (alpha - 1) * (digamma(alpha) - digamma(alpha + beta))
+                                    + (beta - 1) * (digamma(beta) - digamma(alpha + beta)))
+
+        L_obs = E_ln_data_likelihood + E_ln_prior - np.log(E_q_ln_prior)
+        print "L_obs: %f" % L_obs
+
+        # L_alloc
+        digamma_term = 0
+        e_log_uk_term = 0
+        e_log_m_uk_term = 0
+        for k in xrange(self.K):
+            digamma_term += (gammaln(1 + self.gamma0) - gammaln(1) - gammaln(self.gamma0)
+                            - (gammaln(self.eta1[k] + self.eta0[k]) - gammaln(self.eta1[k]) - gammaln(self.eta0[k])))
+            e_log_uk_term += (self.Nk[k] + 1 - self.eta1[k]) * (digamma(self.eta1[k]) - digamma(self.eta1[k] + self.eta0[k]))
+            e_log_m_uk_term += (self.Nk_gt[k] + 1 - self.eta0[k]) * (digamma(self.eta0[k]) - digamma(self.eta1[k] + self.eta0[k]))
+
+        L_alloc = digamma_term + e_log_uk_term + e_log_m_uk_term
+        print "L_alloc: %f" % L_alloc
+
+        # L_entropy
+        L_entropy = entropy(self.r.flatten())
+        print "L_entropy: %f" % L_entropy
+
+        self.ELBO = L_obs + L_alloc + L_entropy
+
+        return self.ELBO
 
     def convert_to_params(self):
         """
@@ -183,16 +229,15 @@ class VariationalModel(object):
         cluster_assgns = np.empty(self.N)
         for n in xrange(self.N):
             cluster_assgns[n] = np.argmax(self.r[n, :])
-        ipdb.set_trace()
+
         # MAP parameter estimates
         active_cluster_indices = set(cluster_assgns)
         cluster_params = {}
         for k in active_cluster_indices:
-            putative_cluster_params = np.divide((self.xvar[:, k] / self.Nk[k]) + self.alpha[:, k] - 1,
-                                        (self.xvar[:, k] + self.xref[:, k])/self.Nk[k] + self.alpha[:, k] + self.beta[:, k] - 2)
+            putative_cluster_params = np.divide((self.Sxvar[:, k] / self.Nk[k]) + self.alpha[:, k] - 1,
+                                        (self.Sxvar[:, k] + self.Sxref[:, k])/self.Nk[k] + self.alpha[:, k] + self.beta[:, k] - 2)
             # Some putative params may be negative. Make them positive.
             cluster_params[k] = map(lambda x: 0 if x < 0 else x, putative_cluster_params)
-
 
         # Reassign indices
         new_index = 1
@@ -240,12 +285,13 @@ class MultiBinomCAVI(object):
         self.num_clusters = None
 
     def run(self):
+        print "Initializing..."
         prev_bound = -np.inf
         is_converged = False
+        lap = 0
 
-        # while not is_converged:
-        for lap in xrange(100):
-            print "Starting lap %d" % lap
+        while not is_converged:
+            lap += 1
             # Calculate local parameters (data likelihoods and responsibilities)
             self.variational_model.calc_local_params()
 
@@ -256,9 +302,11 @@ class MultiBinomCAVI(object):
             self.variational_model.calc_global_params()
 
             # Calculate ELBO, test for convergence
-            # new_ELBO = self.variational_model.calc_ELBO()
-            # if abs(new_ELBO - prev_bound) <= self.cvg_threshold:
-            #     is_converged = True
+            new_ELBO = self.variational_model.calc_ELBO()
+            print "Finished lap %d | ELBO: %f" % (lap, new_ELBO)
+            if abs(new_ELBO - prev_bound) <= self.cvg_threshold:
+                is_converged = True
+            prev_bound = new_ELBO
 
         self.cluster_assgns, self.cluster_params, self.num_clusters = self.variational_model.convert_to_params()
         print "Finished CAVI."
