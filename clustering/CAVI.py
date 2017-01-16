@@ -129,9 +129,6 @@ class VariationalModel(object):
 
             # Initialize local params
             self.calc_local_params()
-            # ipdb.set_trace()
-
-        self.memoizer = {}
 
     def calc_local_params(self):
         # ObsModel: Calculate the variational likelihood matrix E[ln p(x_n | a_k, b_k)]
