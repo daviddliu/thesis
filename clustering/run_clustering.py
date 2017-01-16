@@ -1,5 +1,5 @@
 from MultiBinomMixtureModel import *
-from CAVI import MultiBinomCAVI
+from clustering_module import ClusteringModule
 import ipdb
 
 """
@@ -25,3 +25,9 @@ def run_single(data_dir="data/simulated/Cov_1000_Samples_4_Mut_100_Clone_10_PCR_
 Run on all data code.
 """
 def run_all():
+    clustering_module = ClusteringModule("MultiBinom")
+    clustering_module.run_on_all()
+    clustering_module.generate_violin_plots()
+
+
+run_all()

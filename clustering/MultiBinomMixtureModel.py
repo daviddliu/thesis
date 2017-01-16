@@ -24,6 +24,17 @@ class MultiBinomMixtureModel(ClusteringObject):
         # Now set the posterior learned values.
         self.alpha_post = self.CAVI.variational_model.alpha
         self.beta_post = self.CAVI.variational_model.beta
-        self.num_clusters = self.CAVI.num_clusters
-        self.cluster_assgns = self.CAVI.cluster_assgns
+        self.num_clusters = self.putative_num_clusters = self.CAVI.num_clusters
+        self.putative_cluster_assignments = map(int, (self.CAVI.cluster_assgns - 1).tolist())
         self.cluster_params = self.CAVI.cluster_params
+        self.pool_reads(true_reads=False)
+
+        return
+
+    def get_cluster_plot_params(self, sample_index):
+        """
+        [[alpha, beta] for all clusters] ~ [var, ref]
+        :param sample_index:
+        :return:
+        """
+        return [[alphamk, betamk] for alphamk, betamk in zip(self.alpha_post[sample_index, :], self.beta_post[sample_index, :])]

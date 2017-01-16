@@ -262,7 +262,7 @@ class MultiBinomCAVI(object):
     """
     CAVI for the MultiBinomMixtureModel, with DP allocation.
     """
-    def __init__(self, var_reads, ref_reads, K=None, cvg_threshold=1e-6):
+    def __init__(self, var_reads, ref_reads, K=None, cvg_threshold=1e-3):
         # Data
         self.var_reads = np.asarray(var_reads)
         self.ref_reads = np.asarray(ref_reads)

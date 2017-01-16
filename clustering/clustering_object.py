@@ -244,7 +244,7 @@ class ClusteringObject(object):
         """
         Pool the reads according to the cluster assignments. Add 1 for the prior.
         """
-        return [[pr[1], pr[0]] for pr in self.putative_pooled_reads[sample_index]]
+        raise NotImplementedError("You gotta super this bro, cos it depends on the type of model, don't it?")
 
     def generate_indiv_plot(self):
         """

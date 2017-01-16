@@ -40,6 +40,7 @@ class ClusteringModule(object):
                 raise Exception("Invalid clustering type specified. Your only option is MultiBinom.")
 
             clustering_object.perform_clustering()
+            clustering_object.calculate_performance()
             clustering_object.generate_indiv_plot()
             clustering_object.evaluate_on_ancestree()
 
