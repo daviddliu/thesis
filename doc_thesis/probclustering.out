@@ -5,14 +5,20 @@
 \BOOKMARK [2][-]{section*.6}{The ELBO}{section*.5}% 5
 \BOOKMARK [2][-]{section*.7}{The mean-field variational family}{section*.5}% 6
 \BOOKMARK [2][-]{section*.8}{Mean-field assumptions break dependency to give us coordinate ascent}{section*.5}% 7
-\BOOKMARK [2][-]{section*.10}{Exponential family distributions give us a general CAVI formula}{section*.5}% 8
-\BOOKMARK [1][-]{section*.11}{Variational Inference on Multi-sample Binomial Model}{}% 9
-\BOOKMARK [2][-]{section*.12}{The model and its ELBO}{section*.11}% 10
-\BOOKMARK [2][-]{section*.13}{Multi-sample Binomial coordinate ascent}{section*.11}% 11
-\BOOKMARK [3][-]{section*.14}{Allocation model}{section*.13}% 12
-\BOOKMARK [3][-]{section*.15}{Observation model}{section*.13}% 13
-\BOOKMARK [3][-]{section*.16}{Exponential factorization of data model}{section*.13}% 14
-\BOOKMARK [2][-]{section*.17}{Sufficient statistics}{section*.11}% 15
-\BOOKMARK [3][-]{section*.18}{Obs Model Likelihoods}{section*.17}% 16
-\BOOKMARK [1][-]{section*.19}{Implementation}{}% 17
-\BOOKMARK [1][-]{section*.20}{Evaluating results}{}% 18
+\BOOKMARK [2][-]{section*.9}{Exponential family distributions give us a general CAVI formula}{section*.5}% 8
+\BOOKMARK [1][-]{section*.10}{Variational Inference on Multi-sample Binomial Model}{}% 9
+\BOOKMARK [2][-]{section*.11}{The model and its ELBO}{section*.10}% 10
+\BOOKMARK [2][-]{section*.12}{Multi-sample Binomial coordinate ascent}{section*.10}% 11
+\BOOKMARK [3][-]{section*.13}{Allocation model}{section*.12}% 12
+\BOOKMARK [3][-]{section*.14}{Observation model}{section*.12}% 13
+\BOOKMARK [3][-]{section*.15}{Exponential factorization of data model}{section*.12}% 14
+\BOOKMARK [3][-]{section*.16}{Sufficient statistics}{section*.12}% 15
+\BOOKMARK [3][-]{section*.17}{Obs Model Likelihoods}{section*.12}% 16
+\BOOKMARK [2][-]{section*.18}{Calculating ELBO}{section*.10}% 17
+\BOOKMARK [3][-]{section*.19}{Observation model contribution to ELBO}{section*.18}% 18
+\BOOKMARK [3][-]{section*.20}{Allocation model contribution to ELBO}{section*.18}% 19
+\BOOKMARK [3][-]{section*.21}{Entropy contribution to ELBO}{section*.18}% 20
+\BOOKMARK [3][-]{section*.22}{Initialization}{section*.18}% 21
+\BOOKMARK [1][-]{section*.23}{Implementation}{}% 22
+\BOOKMARK [1][-]{section*.24}{Results}{}% 23
+\BOOKMARK [1][-]{section*.25}{Future work}{}% 24

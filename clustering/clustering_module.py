@@ -16,7 +16,7 @@ class ClusteringModule(object):
         self.kmeans = kmeans
         self.clustering_type = clustering_type
         if kmeans:
-            self.output_dir = "%s_results/" % (self.clustering_type + "_kmeans")
+            self.output_dir = "%s_results/" % (self.clustering_type + "_kmeans_k_100")
         else:
             self.output_dir = "%s_results/" % self.clustering_type
         if not os.path.exists(self.output_dir):
