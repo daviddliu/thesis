@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.1415926-2.5-1.40.14 (TeX Live 2013) (format=pdflatex 2013.5.30)  16 JAN 2017 22:38
+This is pdfTeX, Version 3.1415926-2.5-1.40.14 (TeX Live 2013) (format=pdflatex 2013.5.30)  17 JAN 2017 11:32
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -1162,7 +1162,7 @@ Overfull \vbox (103.5896pt too high) detected at line 182
 [8
 
  <./DDL-UTRA-2016-intro.pdf>]
-<DDL-UTRA-2016-intro.pdf, id=423, page=7, 614.295pt x 794.97pt>
+<DDL-UTRA-2016-intro.pdf, id=424, page=7, 614.295pt x 794.97pt>
 File: DDL-UTRA-2016-intro.pdf Graphic file (type pdf)
 
 <use DDL-UTRA-2016-intro.pdf, page 7>
@@ -1207,10 +1207,10 @@ LaTeX Font Warning: Size substitutions with differences
 Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 199.
  ) 
 Here is how much of TeX's memory you used:
- 17988 strings out of 493315
- 326159 string characters out of 6137904
+ 17990 strings out of 493315
+ 326175 string characters out of 6137904
  422969 words of memory out of 5000000
- 20999 multiletter control sequences out of 15000+600000
+ 21001 multiletter control sequences out of 15000+600000
  15801 words of font info for 59 fonts, out of 8000000 for 9000
  957 hyphenation exceptions out of 8191
  49i,14n,53p,854b,545s stack positions out of 5000i,500n,10000p,200000b,80000s
