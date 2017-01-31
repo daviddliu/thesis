@@ -1,6 +1,6 @@
 \BOOKMARK [1][-]{section*.1}{Introduction}{}% 1
 \BOOKMARK [1][-]{section*.2}{Problem statement}{}% 2
-\BOOKMARK [1][-]{section*.3}{Multi-sample Binomial Mixture Model}{}% 3
+\BOOKMARK [1][-]{section*.3}{Multi-sample Binomial Mixture Model with DP prior}{}% 3
 \BOOKMARK [1][-]{section*.5}{Variational Inference}{}% 4
 \BOOKMARK [2][-]{section*.6}{The ELBO}{section*.5}% 5
 \BOOKMARK [2][-]{section*.7}{The mean-field variational family}{section*.5}% 6
@@ -11,16 +11,17 @@
 \BOOKMARK [2][-]{section*.12}{Coordinate ascent algorithm}{section*.10}% 11
 \BOOKMARK [3][-]{section*.13}{Initialization}{section*.12}% 12
 \BOOKMARK [3][-]{section*.14}{Convergence}{section*.12}% 13
-\BOOKMARK [1][-]{section*.16}{Implementation}{}% 14
-\BOOKMARK [1][-]{section*.17}{Experiments and Results}{}% 15
-\BOOKMARK [1][-]{section*.18}{Future work}{}% 16
-\BOOKMARK [1][-]{section*.19}{Appendix A: Deriving update equations}{}% 17
-\BOOKMARK [2][-]{section*.20}{Allocation model}{section*.19}% 18
-\BOOKMARK [3][-]{section*.21}{Observation model}{section*.20}% 19
-\BOOKMARK [3][-]{section*.22}{Exponential factorization of data model}{section*.20}% 20
-\BOOKMARK [3][-]{section*.23}{Sufficient statistics}{section*.20}% 21
-\BOOKMARK [3][-]{section*.24}{Obs Model Likelihoods}{section*.20}% 22
-\BOOKMARK [1][-]{section*.25}{Appendix: Computing the ELBO}{}% 23
-\BOOKMARK [2][-]{section*.26}{Observation model contribution to ELBO}{section*.25}% 24
-\BOOKMARK [3][-]{section*.27}{Allocation model contribution to ELBO}{section*.26}% 25
-\BOOKMARK [3][-]{section*.28}{Entropy contribution to ELBO}{section*.26}% 26
+\BOOKMARK [2][-]{section*.16}{MAP estimates}{section*.10}% 14
+\BOOKMARK [1][-]{section*.17}{Implementation}{}% 15
+\BOOKMARK [1][-]{section*.18}{Experiments and Results}{}% 16
+\BOOKMARK [1][-]{section*.19}{Future work}{}% 17
+\BOOKMARK [1][-]{section*.20}{Appendix A: Deriving update equations}{}% 18
+\BOOKMARK [2][-]{section*.21}{Allocation model}{section*.20}% 19
+\BOOKMARK [3][-]{section*.22}{Observation model}{section*.21}% 20
+\BOOKMARK [3][-]{section*.23}{Exponential factorization of data model}{section*.21}% 21
+\BOOKMARK [3][-]{section*.24}{Sufficient statistics}{section*.21}% 22
+\BOOKMARK [3][-]{section*.25}{Obs Model Likelihoods}{section*.21}% 23
+\BOOKMARK [1][-]{section*.26}{Appendix: Computing the ELBO}{}% 24
+\BOOKMARK [2][-]{section*.27}{Observation model contribution to ELBO}{section*.26}% 25
+\BOOKMARK [3][-]{section*.28}{Allocation model contribution to ELBO}{section*.27}% 26
+\BOOKMARK [3][-]{section*.29}{Entropy contribution to ELBO}{section*.27}% 27

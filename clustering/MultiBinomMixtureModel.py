@@ -56,6 +56,9 @@ class MultiBinomMixtureModel(ClusteringObject):
         """
         return [[alphamk, betamk] for alphamk, betamk in zip(self.alpha_post[sample_index, :], self.beta_post[sample_index, :])]
 
+    def versus_sciclone_fixed(self):
+
+
     def write_output(self):
         """
         Write output to the data_dir. File name: clustering_output
