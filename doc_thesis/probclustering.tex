@@ -192,7 +192,7 @@
 \section{Introduction}
 Cancer results from an evolutionary process where somatic mutations occur and accumulate in a population of cells. A mutation causes genetic variation at a genomic site called a single nucleotide variant (SNV) for the cell which obtained the mutation and all of its progeny. A mutation which causes selective advantages is called a driver mutation, which leads to this lineage of cells being in a greater proportion in a tumor. Other mutations may accumulate in this lineage but are selectively neutral; these mutations are called passenger mutations. The different lineages which comprise a tumor are known as clones, and the phenomenon of clonal admixture is known as intratumor heterogeneity. 
 
-(I plan on adding a figure here. Will add more background from the literature on tumor heterogeneity. Roth, Ross, Navin)
+(I plan on adding a figure here. Will add more background from the literature on tumor heterogeneity.)
 
 \section{Problem statement}
 One of the most important problems in tumor heterogeneity is tree inference, in which we estimate the evolutionary history and mixing proportions of clones. The first barrier to this problem is figuring out the mutations that belong to each clone---we must know which mutations correspond to a node before we can construct a tree from the nodes. This problem is made more tractable by incorporating multiple samples from the tumor, which provides more information for inference, since the clonal membership of SNVs is invariant across samples. We view the problem of assigning mutations to clones as a general machine learning problem of assigning mutations to clusters.
