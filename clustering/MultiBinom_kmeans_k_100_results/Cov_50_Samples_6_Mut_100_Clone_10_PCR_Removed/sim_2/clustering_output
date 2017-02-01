@@ -3,7 +3,7 @@ Convergence threshold: 1.000000
 Initial num clusters: 100
 kmeans: True
 
-Time taken: 19.339315
+Time taken: 19.761770
 ARI: 0.890807
 Cluster freq error: 0.005191
 Num active clusters: 9
