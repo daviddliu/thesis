@@ -250,6 +250,7 @@ class VariationalModel(object):
         active_cluster_indices = set(cluster_assgns)
         cluster_params = {}
         for k in active_cluster_indices:
+            k = int(k)
             putative_cluster_params = np.divide((self.Sxvar[:, k] / self.Nk[k]) + self.alpha[:, k] - 1,
                                         (self.Sxvar[:, k] + self.Sxref[:, k])/self.Nk[k] + self.alpha[:, k] + self.beta[:, k] - 2)
             # Some putative params may be negative. Make them positive.

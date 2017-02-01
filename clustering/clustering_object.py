@@ -254,8 +254,6 @@ class ClusteringObject(object):
             fig = plt.figure(figsize=(8, max(6, 2 * self.num_samples)))
             # Assign each cluster a color
             individual_VAF_colors = cm.rainbow(scipy.linspace(0, 1, self.true_num_clusters))
-            fig.suptitle(
-                "%s | ARI: %f | Cluster freq error: %f" % (self.clustering_type, self.ARI, self.cluster_freq_error))
             for sample_index in range(self.num_samples):
                 # Plot the actual VAFs
                 ax1 = fig.add_subplot(self.num_samples, 1, sample_index + 1)
@@ -295,12 +293,17 @@ class ClusteringObject(object):
                 for params in self.get_cluster_plot_params(sample_index):
                     a = params[0]
                     b = params[1]
+                    if a < 1e-12 and b < 1e-12:
+                        continue
                     x = scipy.linspace(scipy.stats.beta.ppf(0.01, a, b), scipy.stats.beta.ppf(0.99, a, b), 100)
                     ax1.plot(x, scipy.stats.beta.pdf(x, a, b), 'black')
                     iteration += 1
-
                     # plt.rc('text', usetex=True)
                     # plt.rc('font', family='serif')
+
+                fig.suptitle(
+                    "%s | ARI: %f | Cluster freq error: %f| %d clusters" % (
+                    self.clustering_type, self.ARI, self.cluster_freq_error, iteration))
                 if sample_index == 0:
                     true_patch = mpatches.Patch(color='white', label='True cluster frequencies and reads')
                     black_patch = mpatches.Patch(color='black', label='Cluster posterior distributions')

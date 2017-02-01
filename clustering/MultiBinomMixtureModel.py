@@ -11,7 +11,7 @@ class MultiBinomMixtureModel(ClusteringObject):
         super(MultiBinomMixtureModel, self).__init__("MultiBinom", output_dir, data_dir, sim_name)
         # Default K is the number of data points
         if not K:
-            self.initial_num_clusters = 75 #len(self.var_reads[0])
+            self.initial_num_clusters = len(self.var_reads[0])//2
         else:
             self.initial_num_clusters = K
         self.kmeans = kmeans
@@ -55,9 +55,6 @@ class MultiBinomMixtureModel(ClusteringObject):
         :return:
         """
         return [[alphamk, betamk] for alphamk, betamk in zip(self.alpha_post[sample_index, :], self.beta_post[sample_index, :])]
-
-    def versus_sciclone_fixed(self):
-
 
     def write_output(self):
         """
