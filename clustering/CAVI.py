@@ -83,7 +83,7 @@ class VariationalModel(object):
         ## Prior
         # TODO: Not sure why. But it is this in bnpy. I think gamma0 is alpha.
         self.gamma1 = 1.0
-        self.gamma0 = 1.5
+        self.gamma0 = 1.3
         ## Posterior
         self.eta1 = np.full(K, self.gamma1)
         self.eta0 = np.full(K, self.gamma0)
