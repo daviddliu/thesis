@@ -1,27 +1,32 @@
-\BOOKMARK [1][-]{section*.1}{Introduction}{}% 1
-\BOOKMARK [1][-]{section*.2}{Problem statement}{}% 2
-\BOOKMARK [1][-]{section*.3}{Multi-sample Binomial Mixture Model with DP prior}{}% 3
-\BOOKMARK [1][-]{section*.5}{Variational Inference}{}% 4
-\BOOKMARK [2][-]{section*.6}{The ELBO}{section*.5}% 5
-\BOOKMARK [2][-]{section*.7}{The mean-field variational family}{section*.5}% 6
-\BOOKMARK [2][-]{section*.8}{Coordinate ascent}{section*.5}% 7
-\BOOKMARK [2][-]{section*.9}{Exponential family distributions yield a general formula}{section*.5}% 8
-\BOOKMARK [1][-]{section*.10}{Variational Inference on Multi-sample Binomial Model}{}% 9
-\BOOKMARK [2][-]{section*.11}{The model and its ELBO}{section*.10}% 10
-\BOOKMARK [2][-]{section*.12}{Coordinate ascent algorithm}{section*.10}% 11
-\BOOKMARK [3][-]{section*.13}{Initialization}{section*.12}% 12
-\BOOKMARK [3][-]{section*.14}{Convergence}{section*.12}% 13
-\BOOKMARK [2][-]{section*.16}{MAP estimates}{section*.10}% 14
-\BOOKMARK [1][-]{section*.17}{Implementation}{}% 15
-\BOOKMARK [1][-]{section*.18}{Experiments and Results}{}% 16
-\BOOKMARK [1][-]{section*.19}{Future work}{}% 17
-\BOOKMARK [1][-]{section*.20}{Appendix A: Deriving update equations}{}% 18
-\BOOKMARK [2][-]{section*.21}{Allocation model}{section*.20}% 19
-\BOOKMARK [3][-]{section*.22}{Observation model}{section*.21}% 20
-\BOOKMARK [3][-]{section*.23}{Exponential factorization of data model}{section*.21}% 21
-\BOOKMARK [3][-]{section*.24}{Sufficient statistics}{section*.21}% 22
-\BOOKMARK [3][-]{section*.25}{Obs Model Likelihoods}{section*.21}% 23
-\BOOKMARK [1][-]{section*.26}{Appendix: Computing the ELBO}{}% 24
-\BOOKMARK [2][-]{section*.27}{Observation model contribution to ELBO}{section*.26}% 25
-\BOOKMARK [3][-]{section*.28}{Allocation model contribution to ELBO}{section*.27}% 26
-\BOOKMARK [3][-]{section*.29}{Entropy contribution to ELBO}{section*.27}% 27
+\BOOKMARK [1][-]{section.1}{Introduction}{}% 1
+\BOOKMARK [1][-]{section.2}{General Model}{}% 2
+\BOOKMARK [2][-]{subsection.2.1}{Variant Allele Frequency}{section.2}% 3
+\BOOKMARK [2][-]{subsection.2.2}{Clonal Membership and Generation of Reads}{section.2}% 4
+\BOOKMARK [1][-]{section.3}{Existing methods}{}% 5
+\BOOKMARK [1][-]{section.4}{Binomial Mixture Model with DP prior}{}% 6
+\BOOKMARK [1][-]{section.5}{Overview of Variational Inference}{}% 7
+\BOOKMARK [2][-]{subsection.5.1}{The ELBO}{section.5}% 8
+\BOOKMARK [2][-]{subsection.5.2}{The mean-field variational family}{section.5}% 9
+\BOOKMARK [2][-]{subsection.5.3}{Coordinate ascent}{section.5}% 10
+\BOOKMARK [2][-]{subsection.5.4}{Exponential family distributions yield a general formula}{section.5}% 11
+\BOOKMARK [1][-]{section.6}{Variational Inference on DP Binomial Model}{}% 12
+\BOOKMARK [2][-]{subsection.6.1}{The model and its ELBO}{section.6}% 13
+\BOOKMARK [2][-]{subsection.6.2}{Coordinate ascent algorithm}{section.6}% 14
+\BOOKMARK [3][-]{subsubsection.6.2.1}{Initialization}{subsection.6.2}% 15
+\BOOKMARK [3][-]{subsubsection.6.2.2}{Convergence}{subsection.6.2}% 16
+\BOOKMARK [2][-]{subsection.6.3}{MAP estimates}{section.6}% 17
+\BOOKMARK [2][-]{subsection.6.4}{Implementation}{section.6}% 18
+\BOOKMARK [1][-]{section.7}{Experiments and Results}{}% 19
+\BOOKMARK [2][-]{subsection.7.1}{Results on simulated data}{section.7}% 20
+\BOOKMARK [2][-]{subsection.7.2}{Results on real data}{section.7}% 21
+\BOOKMARK [1][-]{section.8}{Discussion}{}% 22
+\BOOKMARK [1][-]{appendix.A}{Allocation model update equations}{}% 23
+\BOOKMARK [1][-]{appendix.B}{Observation model update equations}{}% 24
+\BOOKMARK [2][-]{subsection.B.1}{Exponential factorization of data model}{appendix.B}% 25
+\BOOKMARK [2][-]{subsection.B.2}{Sufficient statistics}{appendix.B}% 26
+\BOOKMARK [2][-]{subsection.B.3}{Obs Model Likelihoods}{appendix.B}% 27
+\BOOKMARK [1][-]{appendix.C}{Computing the ELBO}{}% 28
+\BOOKMARK [2][-]{subsection.C.1}{Observation model contribution to ELBO}{appendix.C}% 29
+\BOOKMARK [2][-]{subsection.C.2}{Allocation model contribution to ELBO}{appendix.C}% 30
+\BOOKMARK [2][-]{subsection.C.3}{Entropy contribution to ELBO}{appendix.C}% 31
+\BOOKMARK [1][-]{subsection.C.3}{References}{}% 32

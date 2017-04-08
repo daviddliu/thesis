@@ -1,0 +1,83 @@
+\begin{thebibliography}{10}
+
+\bibitem{Nowell1976}
+P.~Nowell, ``The clonal evolution of tumor cell populations,'' {\em Science},
+  vol.~194, no.~4260, pp.~23--28, 1976.
+
+\bibitem{Gerlinger2012}
+Gerlinger {\em et~al.}, ``Intratumor heterogeneity and branched evolution
+  revealed by multiregion sequencing,'' {\em New England Journal of Medicine},
+  vol.~366, no.~10, pp.~883--892, 2012.
+\newblock PMID: 22397650.
+
+\bibitem{Raphael2014}
+B.~J. Raphael, J.~R. Dobson, L.~Oesper, and F.~Vandin, ``Identifying driver
+  mutations in sequenced cancer genomes: computational approaches to enable
+  precision medicine,'' {\em Genome Medicine}, vol.~6, no.~1, p.~5, 2014.
+
+\bibitem{Ancestree}
+M.~El-Kebir, L.~Oesper, H.~Acheson-Field, and B.~J. Raphael, ``Reconstruction
+  of clonal trees and tumor composition from multi-sample sequencing data,''
+  {\em Bioinformatics}, vol.~31, no.~12, p.~i62, 2015.
+
+\bibitem{Ding2012}
+Ding {\em et~al.}, ``Clonal evolution in relapsed acute myeloid leukaemia
+  revealed by whole-genome sequencing,'' {\em Nature}, vol.~481, pp.~506--510,
+  01 2012.
+
+\bibitem{Lander1988}
+E.~S. Lander and M.~S. Waterman, ``Genomic mapping by fingerprinting random
+  clones: A mathematical analysis,'' {\em Genomics}, vol.~2, no.~3, pp.~231 --
+  239, 1988.
+
+\bibitem{SciClone}
+C.~A. Miller {\em et~al.}, ``Sciclone: Inferring clonal architecture and
+  tracking the spatial and temporal patterns of tumor evolution,'' {\em PLOS
+  Computational Biology}, vol.~10, pp.~1--15, 08 2014.
+
+\bibitem{Clomial}
+H.~Zare, J.~Wang, A.~Hu, K.~Weber, J.~Smith, D.~Nickerson, C.~Song, D.~Witten,
+  C.~A. Blau, and W.~S. Noble, ``Inferring clonal composition from multiple
+  sections of a breast cancer,'' {\em PLOS Computational Biology}, vol.~10,
+  pp.~1--15, 07 2014.
+
+\bibitem{PyClone}
+A.~Roth, J.~Khattra, D.~Yap, A.~Wan, E.~Laks, J.~Biele, G.~Ha, S.~Aparicio,
+  A.~Bouchard-Cote, and S.~P. Shah, ``Pyclone: statistical inference of clonal
+  population structure in cancer,'' {\em Nat Meth}, vol.~11, pp.~396--398, 04
+  2014.
+
+\bibitem{Jordan1999}
+M.~I. Jordan, Z.~Ghahramani, T.~S. Jaakkola, and L.~K. Saul, ``An introduction
+  to variational methods for graphical models,'' {\em Machine Learning},
+  vol.~37, no.~2, pp.~183--233, 1999.
+
+\bibitem{Antoniak1974}
+C.~E. Antoniak, ``Mixtures of dirichlet processes with applications to bayesian
+  nonparametric problems,'' {\em Ann. Statist.}, vol.~2, pp.~1152--1174, 11
+  1974.
+
+\bibitem{Blei2006}
+D.~M. Blei and M.~I. Jordan, ``Variational inference for dirichlet process
+  mixtures,'' {\em Bayesian Anal.}, vol.~1, pp.~121--143, 03 2006.
+
+\bibitem{Bishop2006}
+C.~M. Bishop, {\em Pattern Recognition and Machine Learning (Information
+  Science and Statistics)}.
+\newblock Secaucus, NJ, USA: Springer-Verlag New York, Inc., 2006.
+
+\bibitem{Hughes2015}
+M.~C. Hughes, {\em Reliable and scalable variational inference for
+  nonparametric mixtures, topics, and se- quences}.
+\newblock PhD thesis, Brown University, May 2016.
+
+\bibitem{Rand1971}
+W.~M. Rand, ``Objective criteria for the evaluation of clustering methods,''
+  {\em Journal of the American Statistical Association}, vol.~66, no.~336,
+  pp.~846--850, 1971.
+
+\bibitem{blei2016}
+D.~M. Blei, A.~Kucukelbir, and J.~D. McAuliffe, ``Variational inference: A
+  review for statisticians.'' Preprint, 2016.
+
+\end{thebibliography}

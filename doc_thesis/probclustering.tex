@@ -9,13 +9,13 @@
 \usepackage{amssymb}
 \usepackage{bm}
 \usepackage{extramarks}
+\usepackage{multirow}
 \usepackage{amsfonts}
 \usepackage{amsthm}
 \usepackage{array}
 \usepackage{framed}
 \usepackage{mathtools}
 \usepackage{xy}
-\usepackage{multicol}
 \usepackage{hyperref}
 \usepackage{float}
 \usepackage{subfig}
@@ -24,10 +24,8 @@
 \usepackage{fancyhdr}
 \usepackage{lastpage}
 \pagestyle{fancy}
-\headheight 26pt
 \fancyhf{}
 \linespread{1.1}
-\headsep20pt
 \newcommand{\inlinecode}{\texttt}
 \newcommand{\divider}{\line(1,0){250}}
 \rfoot{Page \thepage \  of \pageref{LastPage} }
@@ -35,7 +33,18 @@
 \renewcommand\headrulewidth{0.4pt}
 \renewcommand\footrulewidth{0.4pt}
 
+\newcommand{\specialcell}[2][c]{%
+  \begin{tabular}[#1]{@{}c@{}}#2\end{tabular}}
+
 \setlength\parindent{0pt}
+
+\hypersetup{
+    colorlinks=true,
+    linkcolor=black,
+    filecolor=magenta,      
+    urlcolor=blue,
+    citecolor=blue
+}
 
 %Custom definitions
 \newcommand{\problempart}[1]{\textbf{#1.}}
@@ -78,47 +87,7 @@
 \newcommand{\EEE}[2]{\mathbb{E}_{#1}\left[#2\right]}
 \newcommand{\ELBO}{\textsc{elbo}}
 
-%
-% Create Problem Sections
-%
-
-\newcommand{\enterProblemHeader}[1]{
-    \nobreak\extramarks{}{Problem \arabic{#1} continued on next page\ldots}\nobreak{}
-    \nobreak\extramarks{Problem \arabic{#1} (continued)}{Problem \arabic{#1} continued on next page\ldots}\nobreak{}
-}
-
-\newcommand{\exitProblemHeader}[1]{
-    \nobreak\extramarks{Problem \arabic{#1} (continued)}{Problem \arabic{#1} continued on next page\ldots}\nobreak{}
-    \stepcounter{#1}
-    \nobreak\extramarks{Problem \arabic{#1}}{}\nobreak{}
-}
-
-\setcounter{secnumdepth}{0}
-\newcounter{partCounter}
-\newcounter{homeworkProblemCounter}
-\setcounter{homeworkProblemCounter}{1}
-\nobreak\extramarks{Problem \arabic{homeworkProblemCounter}}{}\nobreak{}
-
-%
-% Homework Problem Environment
-%
-% This environment takes an optional argument. When given, it will adjust the
-% problem counter. This is useful for when the problems given for your
-% assignment aren't sequential. See the last 3 problems of this template for an
-% example.
-%
-\newenvironment{homeworkProblem}[1][-1]{
-    \ifnum#1>0
-        \setcounter{homeworkProblemCounter}{#1}
-    \fi
-    \section{Problem \arabic{homeworkProblemCounter}}
-    \setcounter{partCounter}{1}
-    \enterProblemHeader{homeworkProblemCounter}
-}{
-    \exitProblemHeader{homeworkProblemCounter}
-}
-
-\renewcommand{\part}[1]{\textbf{\large Part \Alph{partCounter}}\stepcounter{partCounter}\vspace{4pt}  \\}
+\newcommand{\defeq}{\stackrel{.}{=}}
 
 % Various Helper Commands
 %
@@ -152,7 +121,7 @@
 \newcommand{\Var}{\mathrm{Var}}
 \newcommand{\Cov}{\mathrm{Cov}}
 \newcommand{\Bias}{\mathrm{Bias}}
-
+\newcommand\mc[1]{\multicolumn{1}{c}{#1}}
 \newcommand{\matr}[1]{\mathbf{#1}}
 
 \makeatletter
@@ -169,6 +138,7 @@
 \newtheorem{observation}{Observation}
 \newtheorem{proposal}{Proposal}
 \newtheorem{claim}{Claim}
+\newtheorem*{problem*}{Problem}
 
 \SetKwComment{Comment}{$\triangleright$\ }{}
 
@@ -181,104 +151,117 @@
 
 % Title page
 
-  \title{Clustering SNVs for Tumor Heterogeneity}
-  \subtitle{Math-CS Sc.B Thesis}
+  \title{\vspace{2in}Clustering SNVs for Tumor Heterogeneity}
+  \subtitle{Brown University, Math-CS Sc.B Thesis}
   \date{\today}
-\author{David Liu}
+\author{David Liu \\ Supervisor: Professor Ben Raphael \\ Reader: Professor Erik Sudderth}
 % Header
-
 \begin{document}
 \maketitle
+\newpage
+\tableofcontents
 \section{Introduction}
-Cancer results from an evolutionary process where somatic mutations occur and accumulate in a population of cells. A mutation causes genetic variation at a genomic site called a single nucleotide variant (SNV) for the cell which obtained the mutation and all of its progeny. A mutation which causes selective advantages is called a driver mutation, which leads to this lineage of cells being in a greater proportion in a tumor. Other mutations may accumulate in this lineage but are selectively neutral; these mutations are called passenger mutations. The different lineages which comprise a tumor are known as clones, and the phenomenon of clonal admixture is known as intratumor heterogeneity. 
+Cancer results from an evolutionary process where somatic mutations occur and accumulate in a population of cells. There are many types of mutations that can cause cancer. A mutation that causes genetic variation at a single genomic site is called a \emph{single nucleotide variant (SNV)}. The different lineages which comprise a tumor are known as clones, and the phenomenon of clonal admixture is known as intratumor heterogeneity \cite{Nowell1976}. The relation of clones with each other is best visualized with a phylogenetic tree, since mutations accumulate within and across subpopulations.
 
-(I plan on adding a figure here. Will add more background from the literature on tumor heterogeneity.)
+\begin{figure}[h]
+\par
+\raisebox{-.5\height}{\includegraphics[width=3.5in]{heterogeneity.png}}%
+%\hfill
+\hspace{0.5in}
+\raisebox{-.5\height}{\includegraphics[width=3in]{multiplesamples.png}}%
+\par
+\caption{\emph{Left: Example of a clonal tree caused by tumor heterogeneity. Right: Spatial samples from a tumor. Figure from} \cite{Ancestree}.}
+\label{fig:Heterogeneity}
+\end{figure}
 
-\section{Problem statement}
-One of the most important problems in tumor heterogeneity is tree inference, in which we estimate the evolutionary history and mixing proportions of clones. The first barrier to this problem is figuring out the mutations that belong to each clone---we must know which mutations correspond to a node before we can construct a tree from the nodes. This problem is made more tractable by incorporating multiple samples from the tumor, which provides more information for inference, since the clonal membership of SNVs is invariant across samples. We view the problem of assigning mutations to clones as a general machine learning problem of assigning mutations to clusters.
+The sequencing and analysis of tumors has revealed extensive intratumor heterogeneity in cancers. This is a clinically relevant problem, as the genetic profile of a tumor can lead to treatment failure and drug resistance; increased tumor heterogeneity has been linked with more aggressive cancers \cite{Gerlinger2012}. The ability to genetically profile a tumor would improve physicians' ability to tailor treatments according to the subpopulations and mutations present \cite{Raphael2014}. 
 
-The data typically used for tree inference is called the variant allele frequency (VAF), observed as follows. Suppose we take multiple biopsy samples from a tumor separated spatially or temporally. These samples are sequenced separately, so that the reads are from a sample's mixture of clones. By comparing to a control sample, if a read contains the mutated allele at a SNV, it is called a variant read; otherwise it is called a reference read. The VAF is defined for each SNV in each sample, as, in each sample, the number of variant reads at an SNV divided by the number of total reads at that SNV. Each mutation which belongs to a clone should be observed to have about the same variant allele frequency, and this clustering should be true for each clone across all samples.
+One of the most studied problems in tumor heterogeneity is tree inference, in which we estimate the evolutionary history and mixing proportions of clones \cite{Ancestree}. A clone is typically defined as a group of cells that arose from the same set of mutations, so that the cells with this  In doing so, we must know which mutations belong to each clone---to have a tree, we must know what the constituent nodes are. This problem is made more tractable by incorporating multiple samples from the tumor (eg. biopsies separated physically or temporally), which provides more information for inference, since the clonal membership of SNVs is invariant across samples. We view the problem of assigning mutations to clones as a general machine clustering problem.
 
-%%% === Describe the problem better, esp. with vectorized notation.
+\section{General Model}
+\subsection{Variant Allele Frequency}
+The data typically used for tree inference is called the \emph{variant allele frequency (VAF)}, which is a measure of how much a mutation occurs in a population. The VAF is determined by sequencing a sample from a tumor, so that the reads represent the sample's mixture of clones \cite{Ding2012}. By comparing to a control sample, if a read contains the mutated allele at a SNV, it is called a variant read; otherwise it is called a reference read. The VAF is defined for each SNV in each sample, as, in each sample, the number of variant reads at an SNV divided by the number of total reads at that SNV. Across multiple samples, each mutation that belongs to a clone should be observed to have about the same variant allele frequency, because the clone frequency is the same; thus a clustering should be true for each clone across all samples.
 
-We can express the mathematical dependencies in our model in terms of the processes that generate them. First, each SNV $n = 1, ..., N$ must be assigned to a cluster $k=1,\ldots,K$, $K < N$. These cluster memberships are described by the latent variables $\bz_n$, a 1-of-$K$ indicator vector that denotes the cluster assignment of SNV $n$ to cluster $k$. 
+\subsection{Clonal Membership and Generation of Reads}
+We can express the mathematical dependencies in our model in terms of the processes that generate them: SNVs (labels) are assigned to clones (clusters), and variant reads are generated according to clone-specific parameters. From here on, we will use SNVs to refer to labels, and we will use clusters to refer to clones.
 
-Now suppose that for each sample $m=1, \ldots M$, we have total reads $d_{mn}$ drawn from a Poisson with expected value of the coverage (Lander-Waterman cite). Let SNV $n$ belong to cluster $k$. Then each cluster emits variant reads $v_{mn}$ according to some distribution $V_{mk}(\bphi_{mk})$, where $\bphi_{mk}$ are the parameters for $V_{mk}$. We can vectorize this as 
+First, each SNV $n \in \{1, ..., N\}$ belongs to a cluster $k\in\{1,\ldots,K\}$, $K \leq N$. Note that we do not know the true number of clusters in advance, since the cancer mutates unpredictibally. These cluster memberships are described by the latent variables $\bz_n$, a 1-of-$K$ indicator vector that denotes the cluster assignment of SNV $n$ to cluster $k$. 
+
+Now suppose that for each sample $m\in\{1, \ldots M\}$, we have total reads $d_{mn}$ drawn from a Poisson with expected value equal to the coverage \cite{Lander1988}. Let SNV $n$ belong to cluster $k$. Then variant reads $v_{mn}$ are generated according to distribution $V(v_{mn}; d_{mn}, \bphi_{mk})$, where $V$ is any probability distribution that depends on $v_{mn}$ and has parameters $d_{mn}, \bphi_{mk}$. By vectorizing, we can make clear that the clustering for a SNV $n$ is fixed across samples $m$.
 \begin{align}
-				\bf{v}_{n} = 
+\bm{d_{n}} &= 	\begin{bmatrix} d_{1n} \\ d_{2n} \\ \vdots \\ d_{Mn} \end{bmatrix}, \quad\bm{v_{n}} = 	\begin{bmatrix} v_{1n} \\ v_{2n} \\ \vdots \\ v_{Mn} \end{bmatrix}	\\[20pt]
+	\bf{v}_{n} &\defeq 
 				\begin{bmatrix}
 				 	v_{1n} \\ v_{2n} \\ \vdots \\ v_{Mn}
 				\end{bmatrix}
 				\sim
 				\begin{bmatrix}
-					V(d_{1n}, \bphi_{1k}) \\ V(d_{2n}, \bphi_{2k}) \\ \vdots \\ V(d_{Mn}, \bphi_{Mk})
+					V(v_{1n}; d_{1n}, \bphi_{1k}) \\ V(v_{2n}; d_{2n}, \bphi_{2k}) \\ \vdots \\ V(v_{Mn}; d_{Mn}, \bphi_{Mk})
 				\end{bmatrix}
-				= \bm{V(\bphi_k)}
+				\defeq \bm{V(\bphi_k)}
 \end{align}
 
+Let $\bx_{n}$ be general notation for $\{\bm{d}_{n}, \bm{v}_{n}\}$, where the use of the reference or variant reads will be clear from context. Generalizing notation further, let $\bx = \{\bx_1, \ldots, \bx_n\}$, $\bphi = \{\bphi_1, \ldots, \bphi_n\}$, and $\bz = \{\bz_1, \ldots, \bz_n\}$. Then we wish to discover the underlying $\bz, \bphi$ for the model given some observations $\bx$.
 
-Let $\bx_n$ be general notation for $\{d_{n}, v_{n}\}$, where the use of the reference or variant reads will be clear from context. Then we wish to discover the underlying $\bz_n, \bphi$ for the model given some observations $\bx$.
+\begin{problem*}[SNV clustering problem]
+Suppose that for SNVs $n \in \{1, ..., N\}$ in samples $m\in\{1, \ldots M\}$. Further suppose that there exists clones (clusters) $k\in\{1,\ldots,K\}$ and a true clustering $\bz$. Given total reads $\bm{d}_1, \ldots, \bm{d}_n$ and variant reads $\bm{v}_1, \ldots, \bm{v}_n$, how can we recover the $\bm{z}$ and $\bphi$?
+\end{problem*}
 
-%%% ===
+\section{Existing methods}
 
-There are existing clustering methods in bioinformatics such as PyClone and SciClone (cite). These methods choose $V_{mn}$ to be a binomial distribution, or choose $V_{mn}$ to be beta with data $f_{mn} = \frac{v_{mn}}{d_{mn}}$. While they both can use a multi-binomial mixture model, their model selection for the number of clusters is through a Dirichlet prior and an ad-hoc heuristic. In terms of inference, PyClone uses MCMC to approximate the posterior while SciClone uses variational inference. MCMC, while accurate in the long run, may have poor convergence properties, while variational inference is a faster technique that potentially trades off some accuracy for speed and scalability.
+There are existing clustering methods in bioinformatics such as SciClone, Clomial, and PyClone \cite{SciClone, Clomial, PyClone}. These methods follow the model described above; two popular choices for $V$ are the binomial and beta distributions. The binomial distribution is a natural choice due to the binary nature of read data. It is also attractive because the number of reads which belong to a cluster naturally weighs the cluster's mixing proportion, which is not necessarily true for the beta model. The beta distribution is also a natural choice for $V$ because variant allele frequencies are in the range $(0,1)$. That is, $V$ is beta with data $f_{mn} = \frac{v_{mn}}{d_{mn}}$. 
 
-However, state of the art clustering methods use the Dirichlet process to select the number of clusters, which as a nonparametric model, has more rigorous model selection when compared to the heuristic methods used in PyClone and SciClone. There is also a need for inference on large datasets, for which variational inference is useful. In this thesis, I address this need by proposing and implementing a method to cluster mutations using variational inference for a multi-binomial mixture model with Dirichlet process prior, which is suited for the multi-sample clone mixing problem.
+However, these methods differ in model selection and inference. For example, SciClone uses a fixed number of clusters through a Dirichlet prior and an ad-hoc heuristic for $K$, with inference through variational inference. Clomial uses a Dirichlet prior and the BIC for model selection, and EM for inference. PyClone uses a Dirichlet Process prior, and MCMC for inference. Thus PyClone has the same model, but uses a slower inference technique.
+
+State of the art clustering methods use the Dirichlet process to select the number of clusters, which as a nonparametric model, can provide more rigorous model selection. There is also a need for inference on large datasets, for which variational inference is useful. MCMC, while accurate in the long run, may have poor convergence properties, while variational inference is a faster technique that potentially trades off some accuracy for speed and scalability \cite{Jordan1999}. In this thesis, I attempt to augment existing approaches by proposing and implementing a method to cluster mutations using variational inference for a binomial mixture model with Dirichlet process prior, which is suited for the multi-sample clone mixing problem.
+
+\begin{table}[ht]
+  \large
+  \centering
+  {\renewcommand{\arraystretch}{1.5}
+  \begin{tabular}{c|c|*{2}{c|}}
+    \multicolumn{2}{c}{} & \multicolumn{2}{c}{Model Selection} \tabularnewline
+    \cline{2-4}
+    \multirow{3}*{\rotatebox{90}{Inference Method}} 
+&    \bfseries  & \bfseries \specialcell{Dirichlet Prior + Heuristic \\ (Fixed $K$)} & \bfseries \specialcell{Dirichlet Process Prior\\ (countably infinite $K$)}  \tabularnewline[1 ex] 
+\cline{2-4}
+&    \bfseries MCMC & (Many older methods)  & PyClone  \tabularnewline [1ex] 
+    \cline{2-4}
+&    \bfseries VI & SciClone  & \emph{This thesis} \tabularnewline [1ex] 
+    \cline{2-4}
+  \end{tabular}
+  }
+  \caption{A comparison of methods used to solve the clonal mixture problem.}
+   \label{table:methods}
+\end{table} 
 
 \newpage
 
-\section{Multi-sample Binomial Mixture Model with DP prior}
+\section{Binomial Mixture Model with DP prior}
+Figure~\ref{fig:GM} on the next page shows a graphical model representation of the model.
 
-This section follow the notation introduced above.
-
-Because reads follow a reference/variant pattern, suppose that each clone in each sample emits variant reads according to a binomial distribution---thus we choose $V_{mn}$ to be a binomial distribution. Thus, for cluster $k$, some cluster member $n$, and reads $d_{mn}$, we have variant reads distributed according to $\mathrm{Bin}(v_{mn}; d_{mn}, \bphi_{mk})$. We can consider the joint probability of reads for an SNV by the product across all samples, since we assume samples are independent. That is,
-\begin{equation}
-p(\mathbf{x_n} | \bphi_k) = \prod\limits_{m=1}^M \mathrm{Bin}(v_{mn}; d_{mn}, \bphi_k)
+Suppose that each clone in each sample emits variant reads according to a binomial distribution. Thus, for cluster $k$, some SNV $n$ which belongs to this cluster, and reads $d_{mn}$, we have variant reads distributed according to $\mathrm{Bin}(v_{mn}; d_{mn}, \bphi_{mk})$. Call $\phi_{mk}$ the cluster frequency for sample $m$ in cluster $k$. By the independence of reads across samples, the joint probability of reads for an SNV is the product across all samples. Using our vectorized notation,
+\begin{equation} \label{eq:xlikelihood}
+\Pr(\mathbf{x_n} | \bphi_k) = \prod\limits_{m=1}^M \mathrm{Bin}(v_{mn}; d_{mn}, \bphi_k)
 \end{equation}
 
-Further suppose that the cluster memberships $\bz_n$ and weights $\pi_k$ are generated by a Dirichlet process prior. The reader is referred to (Antoniak 1974) for more mathematical detail on the DP. Thus $K$ could be countably infinite, but with probability one, $K$ is finite.
+Let the cluster memberships $\bz_n$ and weights $\pi_k$ be generated by a Dirichlet process prior. The reader is referred to \cite{Antoniak1974} for more mathematical detail on the DP. By truncating the DP at $K = N$, $K \in \{1, \ldots, N\}$ with probability 1.
 
- As we can see by inspecting the graphical model, the likelihood of $\bx$ depends on the latent variables in a straightforward way:
-\begin{align}
-p(\mathbf{x_n} | \bz, \bphi_k) &= \prod\limits_{k=1}^K p(\mathbf{x_n} | \mathbf{\phi_k})^{\bz_{nk}} \nonumber \\
+The likelihood of $\bx_n$ depends on the latent variables in a straightforward way from (\ref{eq:xlikelihood}):
+\begin{align} \label{eq:jointlikelihood}
+\Pr(\mathbf{x_n} | \bz, \bphi_k) &= \prod\limits_{k=1}^K \Pr(\mathbf{x_n} | \mathbf{\phi_k})^{\bz_{nk}} \nonumber \\
 										&= \prod\limits_{k=1}^K \prod\limits_{m=1}^M \mathrm{Bin}(v_{mn}; d_{mn}, \bphi_{mk})^{\bz_{nk}}
 \end{align}
-Now consider the joint likelihood of the observed data and latent variables, which follows from (3): 
+Then the joint likelihood of the observed data and cluster memberships, follows from (\ref{eq:jointlikelihood}): 
 \begin{equation}
-p(\mathbf{x_n}, \bz | \bm{\pi}, \bphi) = \prod\limits_{k=1}^K \prod\limits_{m=1}^M \left(\pi_k \mathrm{Bin}(v_{mn}; d_{mn}, \phi_{mk})\right)^{\bz_{nk}}
+\Pr(\mathbf{x_n}, \bz | \bm{\pi}, \bphi) = \prod\limits_{k=1}^K \prod\limits_{m=1}^M \left(\pi_k \mathrm{Bin}(v_{mn}; d_{mn}, \phi_{mk})\right)^{\bz_{nk}}
 \end{equation}
 
-Figure~\ref{fig:GM} on the next page shows the graphical model.
-
-\newpage
-\begin{quote}
-$n = 1, \ldots , N$:  SNVs \\
-$m = 1, \ldots , M$: samples \\
-$k = 1, \ldots ,  K$: clusters
-\end{quote}
-
-\begin{figure}[H]
-\centerimg[scale=1.0]{multi_pgm.png}
-\caption{Graphical model for the VAFs.}
-\label{fig:GM}
-\end{figure}
-
-\begin{quote}
-$\alpha$ = Hyperparameter for the stick-breaking process \\
-$H \sim U(0,1) \sim \mathrm{Beta}(1, 1)$ = Base distribution for parameters $\phi_{mk}$	 \\
-$\pi_k$ =  Cluster weights, generated from the stick-breaking process \\
-$z_{n} \in \{1, \ldots, K, \ldots \}  \sim \mathrm{Cat}_\infty(\pi_1, \ldots, \pi_K, \ldots)$ =  Cluster membership for SNV $n$\\
-$\phi_{mk}$ = Cluster frequency \\ 
-$v_{mn} \sim \mathrm{Binom}(v_{mn}; d_{mn}, \phi_{mk})$ = {\smaller Observed variant reads for sample $m$, SNV $n$, belonging to cluster $k$.} \\ 
-$d_{mn} \sim \mathrm{Pois}(\text{Coverage})$ = Observed total reads for sample $m$, SNV $n$
-\end{quote}
-\vspace{0.05cm}
-
-As described in (Blei 2006), the data arises in the following manner, with a stick-breaking construction given as:
-\begin{align*}
+As described in \cite{Blei2006}, the Dirichlet Process can be described constructively with a stick-breaking process as follows, for some base measure $H$ and concentration parameter $\alpha$:
+\begin{align}
 \pi_i(\mathbf{v}) &= v_i \prod\limits_{j=1}^{i-1} (1 - v_j) \\
 				DP &= \sum_{i=1}^\infty \pi_i(\mathbf{v}) \delta_{\phi_i}
-\end{align*}
+\end{align}
 \begin{enumerate}
 	\item Draw $v_k | \alpha \sim \mathrm{Beta}(1, \alpha)$, \hspace{0.2cm} $k = \{1, 2, \ldots\}$
 	\item Draw $\bphi_k | H \sim H^M$, \hspace{1cm} $k = \{1, 2, \ldots\}$
@@ -288,26 +271,50 @@ As described in (Blei 2006), the data arises in the following manner, with a sti
 		\item Draw $\bx_n | z_n \sim p(\bx_n | \bphi_k)$.
 	\end{enumerate}
 \end{enumerate}
-The full posterior 
+The full cluster assignment posterior 
 \begin{equation}
 p(\bz | \bx, \alpha, H) = \int p(\bx | \mathbf{\phi}) p(\phi | \bx, \alpha, H) \, d\phi
 \end{equation}
-involves a Dirichlet Process and is thus analytically intractable. We must use some sort of computational technique to perform inference on this posterior.
+involves a Dirichlet Process and is thus analytically intractable. We must use some sort of computational technique, such as variational inference, to perform inference on this posterior.
 
-\section{Variational Inference}
+\begin{figure}[h]
+\centerimg[scale=1.0]{multi_pgm.png}
+\caption{Graphical model for the VAFs.}
+\label{fig:GM}
+\end{figure}
 
-Variational inference is an alternative to MCMC-based inference methods. At a high level, variational inference factors a posterior using the mean-field approximation, which approximates the posterior in a higher-dimensional space using simpler independent functions. Then a simple coordinate ascent can be performed in order to infer the model parameters.
+\begin{quote}
+$n = 1, \ldots , N$:  SNVs \\
+$m = 1, \ldots , M$: samples \\
+$k = 1, \ldots ,  K$: clusters
+\end{quote}
+
+\begin{quote}
+$\alpha$ = Hyperparameter for the stick-breaking process \\[2pt]
+$H \sim U(0,1) \sim \mathrm{Beta}(1, 1)$ = Base distribution for cluster frequencies ($\phi_{mk}$)	 \\[2pt]
+$\pi_k$ =  Cluster weights, generated from the stick-breaking process \\[2pt]
+$z_{n} \in \{1, \ldots, K, \ldots \}  \sim \mathrm{Cat}_\infty(\pi_1, \ldots, \pi_K, \ldots)$ =  Cluster membership for SNV $n$\\[2pt]
+$\phi_{mk}$ = Cluster frequency \\ [2pt]
+$v_{mn} \sim \mathrm{Binom}(v_{mn}; d_{mn}, \phi_{mk})$ = {\smaller Observed variant reads for sample $m$, SNV $n$, belonging to cluster $k$.} \\ [2pt]
+$d_{mn} \sim \mathrm{Pois}(\text{Coverage})$ = Observed total reads for sample $m$, SNV $n$
+\end{quote}
+\vspace{0.05cm}
+
+
+\section{Overview of Variational Inference}
+
+\emph{Variational inference} (VI) is an alternative to MCMC-based inference methods. At a high level, variational inference factors a posterior using the mean-field approximation, which approximates the posterior in a higher-dimensional space using simpler independent functions. Then a simple coordinate ascent can be performed in order to infer the model parameters. The following is a general treatment of VI, where latent variables refer to cluster memberships.
 
 \subsection{The \textsc{ELBO}}
 
-Let $\mathbf{z}$ denote the latent variables, and $\mathbf{x}$ denote the data. We seek to approximate the posterior $p(\mathbf{z}|\mathbf{x})$ from a family of distributions $\mathcal{D}$ by solving the following optimization problem: 
-\begin{equation}
+The following is from \cite{Blei2006}. Let $\mathbf{z}$ denote the latent variables, and $\mathbf{x}$ denote the data. We seek to approximate the posterior $p(\mathbf{z}|\mathbf{x})$ from a family of distributions $\mathcal{D}$ by solving the following optimization problem: 
+\begin{equation} \label{eq:optimalq}
 q^*(z) = \arg\!\min_{q(\mathbf{z}) \in \mathcal{D}} \kl{(q(\mathbf{z}) || p(\mathbf{z}|\mathbf{x}))}.
 \end{equation}
 
 where \textsc{kl} is the KL-divergence, which measures the ``distance'' between two distributions. 
 
-However, (6) requires us to compute the log evidence (which is intractable over the space of all $\mathbf{z}$) since 
+However, (\ref{eq:optimalq}) requires us to compute the log evidence (which is intractable over the space of all $\mathbf{z}$) since 
 \begin{align}
   \kl{q(\bz) \| p(\bz \g \bx)} =
   \E\left[\log q(\bz)\right] -
@@ -316,7 +323,7 @@ However, (6) requires us to compute the log evidence (which is intractable over 
 \end{align}
 
 Instead, we optimize an objective function which is not dependent on $\log p(\bx)$. We call this the evidence lower bound (\textsc{ELBO}), which is equal to the negative \textsc{KL}-divergence plus the $\log$ evidence.
-\begin{align}
+\begin{align} \label{eq:ELBO}
   \ELBO(q) =
   \E{[\log p(\bz, \bx)]} -
   \E{[\log q(\bz)]}.
@@ -324,32 +331,36 @@ Instead, we optimize an objective function which is not dependent on $\log p(\bx
 and thus we see that $\log p(\bx)$ is a constant with respect to $q$. The $\textsc{ELBO}$ gets its name from the fact that it is a lower bound for the $\log$ evidence. 
 
 \subsection{The mean-field variational family}
-And what family of distributions do we use for $\mathcal{D}$? The standard technique is to use a simple one from physics, the mean-field variational family. In this family, the latent variables $\bz$ are mutually independent so that the joint distribution factorizes:
-\begin{align}
+The standard technique is to select a simple family of distributions for $\mathcal{D}$, the mean-field variational family \cite{Blei2006}. In this family, the latent variables $\bz$ are mutually independent so that the joint distribution factorizes:
+\begin{align} \label{eq:meanfield}
   q(\bz) = \prod_{j=1}^{m} q_j(z_j).
 \end{align}
 where $q_j$ is a bounded variation dependent only on $z_j$. The structure of the model will dictate the optimal form of $q_j$. 
 
 \subsection{Coordinate ascent}
-The optimization is solved using a coordinate ascent algorithm, where via the mean-field assumption, the independence of the latent variables gives us orthogonality. Let $z_{-j}$ denote the set of latent variables $z_l$ such that $l \neq j$. Consider the complete conditional of $z_j$, which is a function of the other latent variables and the data, $p(z_j \g \bz_{-j}, \bx)$. Since the expectation in the \textsc{ELBO} is with respect to $q(\bz)$, which we have assumed factorizes, then we can dissect out the dependence with respect to $\bz_j$ by using (8) and (9):
+The optimization is solved using a coordinate ascent algorithm, where via the mean-field assumption, the independence of the latent variables gives us something similar to orthogonality. Let $\bz_{-j}$ denote the set of latent variables $\bz_l$ such that $l \neq j$. Consider the complete conditional probability of $z_j$, which is a function of the other latent variables and the data, $p(z_j \g \bz_{-j}, \bx)$. Since the expectation in the \textsc{ELBO} is with respect to $q(\bz)$, which we have assumed factorizes, then we can dissect out the dependence \cite{Bishop2006} with respect to $\bz_j$ by using (\ref{eq:ELBO}) and (\ref{eq:meanfield}):
 \begin{align}
 \ELBO(q) &= \int \prod q_i(\bz_i) \left(\log p(\bz, \bx) - \sum_i \log q_i(\bz_i) \right) \,d\bz \nonumber \\
 			&\propto \int q_j(z_j) \E_{-j}\left[\log p(\bx, \bz) \right] \, d\bz_j - \int q_j(z_j) \log q_j(\bz_j) \, d\bz_j
 \end{align}
 Now suppose that we fix $z_{-j}$ and maximize the \textsc{ELBO}. Then the \textsc{ELBO} is maximized when $\log q_j(\bz_j) \propto \E_{-j}\left[\log p(\bx, \bz) \right]$, by the positivity of the $\textsc{KL}$-divergence. Thus the optimal $q^*(\bz_j)$ occurs when
-\begin{align}
+\begin{align} \label{eq:coordascent}
 q^*_j(\bz_j) \propto \exp\left(\E_{-j}\left[\log p(\bx, \bz) \right]\right)
 \end{align}
 
-(11) underlies the coordinate-ascent variational inference algorithm. By iterating through each variational factor, fixing the others, and performing coordinate ascent (similar to Gibbs sampling), then we eventually reach a local optimum of the \textsc{ELBO}.
+(\ref{eq:coordascent}) underlies the coordinate-ascent variational inference algorithm. By iterating through each variational factor, fixing the others, and performing coordinate ascent (similar to Gibbs sampling), then we eventually reach a local optimum of the \textsc{ELBO}.
 
 \subsection{Exponential family distributions yield a general formula}
 
-If our posterior is in the exponential family, then the computation of coordinate ascent and ELBO can be generalized. Recall that a distribution is in exponential form if it can parameterized by $$f_X(x\mid\theta) = h(x) \exp \left (\theta^T \cdot T(x) -A(\theta)\right )$$
-where $T(x)$ is the sufficient statistic vector, $\theta$ is the natural parameter vector, and $A(\theta)$ is the cumulant. We keep the actual derivations to (Hughes 2015), but the intuition is that because the optimal variational updates are proportional to a $\exp(\E[\log(.)])$ then writing the distribution in exponential form reveals some dependencies that hold for all exponential family members.
+If the posterior is in the exponential family, then the computation of coordinate ascent and ELBO can be generalized. Recall that a distribution is in exponential form if it can parameterized by 
+\begin{equation}
+f_X(x\mid\theta) = h(x) \exp \left (\theta^T \cdot T(x) -A(\theta)\right )
+\end{equation}
+where $T(x)$ is the sufficient statistic vector, $\theta$ is the natural parameter vector, and $A(\theta)$ is the cumulant. The details are in \cite{Hughes2015}, but the intuition is that because the optimal variational updates (\ref{eq:coordascent}) are proportional to $\exp(\E[\log(.)])$ then writing the distribution in exponential form reveals dependencies that hold for all exponential family members.
 
 
-\section{Variational Inference on Multi-sample Binomial Model}
+\section{Variational Inference on DP Binomial Model}
+Now we apply the variational inference framework to the model we developed.
 
 \subsection{The model and its ELBO}
 
@@ -367,7 +378,7 @@ where $\lambda$ represents the hyperparameter governing the stick-breaking proce
  \underbrace{\prod\limits_{n=1}^{N} q(z_n)}_{\substack{ \text{Allocation: cluster responsibilities} \\ \text{Product of categoricals} \\ 2NK \text{ variational parameters}  \\ \{\hat{r}_{nk}\}_{n=1, k=1}^{N, K}   }} \nonumber
 \end{align}
 
-Note that the cluster proportions and data assignments are dictated by the Dirichlet Process|we call this the allocation model. On the other hand, the observation parameters vary depending on the structure of the generative model|we call this the observation model. The equations relating to the allocation model are standard, and the theory is left to (Blei 2006, Hughes 2015). Here we derive the form of the  $q(\bm{\phi}_k)$ is a function of $\bm{\phi_k}$, as the observation model is specific to our multi-sample binomial model.
+Note that the cluster proportions and data assignments are dictated by the Dirichlet Process|we call this the allocation model. On the other hand, the observation parameters vary depending on the structure of the generative model|we call this the observation model (Hughes 2015). Here we derive the form of the  $q(\bm{\phi}_k)$ is a function of $\bm{\phi_k}$, as the observation model is specific to our multi-sample binomial model.
 
 We note that for an individual allelic site in a sample, the data likelihood is binomial. With a beta prior, we know that the resulting posterior for $q(\bm{\phi}_{mk})$ is conjugate to the binomial, and thus $q(\bm{\phi}_{mk}) \sim \mathrm{Beta}(\bm{\phi}_k | \alpha_{mk}, \beta_{mk})$ where $\alpha_{mk}, \beta_{mk}$ are variational parameters. Because reads across samples at a site are assumed to be independent, then we have 
 \begin{align*}
@@ -377,14 +388,17 @@ q(\bm{\phi}_k)  &= \prod\limits_{m=1}^M q(\bm{\phi}_{mk}) \\
 
 \subsection{Coordinate ascent algorithm}
 
-The details of the derivations of the coordinate ascent algorithm are left to Appendix A. The details of the derivations for the ELBO are left to Appendix B. Taking results from these two appendices, we have the following procedure for coordinate ascent on our model.
+The derivations of the coordinate ascent algorithm are in Appendices A and B. The derivations for the ELBO are in Appendix C. We have the following procedure for coordinate ascent on our model.
 
 \subsubsection{Initialization}
-The initial responsibilities of the cluster were chosen by setting $\hat{r}_{nk} = 1$ if $n$ was set to be in cluster $k$ by the k-means++ algorithm with $\frac{N}{2}$ initial clusters, with the other $\hat{r}_{n.}$ set to be $\frac{1}{k}$. These responsibilities were then normalized. For the other parameters, we assume that they are set to their prior or uniform values. The truncation level of $K$ was set to be $\frac{N}{2}$, with all $K$ greater than $\frac{N}{2}$ being irrelevant.
+The initial responsibilities of the cluster were chosen by setting $\hat{r}_{nk} = 1$ if $n$ was set to be in cluster $k$ by the k-means++ algorithm with $N$ initial clusters \cite{Hughes2015}, with the other $\hat{r}_{n.}$ set to be $\frac{1}{k}$. These responsibilities were then normalized. For the other parameters, we assume that they are set to their prior or uniform values. Thus the truncation level of $K$ was set to be $N$, with all $K > N$ having zero probability.
+
+Since we assumed a uniform prior, $\alpha_0 = \beta_0 = 1$. The other parameters were chosen empirically. We let $\gamma_1 = \eta_1 = 1.0$ and $\gamma_0 = \eta_0 = 1.5$.
 
 \subsubsection{Convergence}
 We declare the coordinate ascent procedure to be complete when the difference in ELBO between two iterations is less than some convergence threshold. Empirically, we chose the threshold to be equal to 0.01. 
 
+The following pseudocode follows the format of \cite{Hughes2015}.
 \begin{algorithm}[h]
 \SetCommentSty{itshape}
 \KwIn{Data $\bx_n$, where each $x_i$ is an integer vector with $M$ entries. \\ \hspace{1.25cm} $\gamma_0, \gamma_1, \alpha_0, \beta_0$, hyperparameters}
@@ -427,46 +441,65 @@ We declare the coordinate ascent procedure to be complete when the difference in
 \Return{Converged variational parameters}
 \caption{\textsc{CAVI for the multidimensional Binomial model}}
 \label{alg:cavi}
+
 \end{algorithm}
 
 \subsection{MAP estimates}
-We make MAP estimates by converting from variational parameters back to the original parameters of the posterior:
+For each cluster we pool reads by cluster membership:
 \begin{align}
-\bz_n &= \arg \max_k \hat{r}_{nk}  \\[8pt]
-\phi_{mk} &= \frac{v^{mk} + \alpha_{mk} - 1}{d^{mk} + \alpha_{mk} + \beta_{mk} - 2}\\
-\intertext{where we mean by $\bz_n = k$ that $\bz_n$ is a 1-of-$k$ indicator vector. And by pooling reads,}
-v^{mk} &= \sum_n (v_{mn})^{\bz_n} \\
-d^{mk} &= \sum_n (d_{mn})^{\bz_n}
+v_{mk}^{\text{pooled}} &= \sum_n (v_{mn})^{\bz_n} \\
+d_{mk}^{\text{pooled}} &= \sum_n (d_{mn})^{\bz_n} \\
+\intertext{and we can make MAP estimates by converting from the variational parameters back to the original parameters of the posterior:}
+\bz_n^{\text{MAP}} &= \arg \max_k \hat{r}_{nk}  \\[8pt]
+\phi_{mk}^{\text{MAP}} &= \frac{v_{mk}^{\text{pooled}} + \alpha_{mk} - 1}{d_{mk}^{\text{pooled}} + \alpha_{mk} + \beta_{mk} - 2}
 \end{align}
 
 
-\section{Implementation}
-This has been implemented in Python.
+\subsection{Implementation}
+The VI coordinate ascent algorithm was implemented in Python. The code is available \href{https://github.com/daviddliu/thesis/tree/master/clustering}{on Github}.
 
 \section{Experiments and Results}
 
-The ``positive control'' should be the SciClone model, when it is given the correct number of clusters. 
+The coordinate ascent algorithm was benchmarked against SciClone and PyClone, as these are the state-of-the-art methods for the other types of model selection and inference (see Table \ref{table:methods}). These methods were first run on simulated data with the following parameters:
 
-Comparison against other clustering methods.
-\begin{itemize}
-	\item SciClone
-	\item Gaussian DP
-	\item Ancestree SCC
-\end{itemize}
+\begin{table}[ht]
+\centering
+\begin{tabular}{| l | l |}
+\hline
+Number of clusters ($K$) & 10            \\ \hline
+Number of SNVs ($N$)     & 100           \\ \hline
+Number of samples ($M$)  & 4, 5, 6       \\ \hline
+Coverage                 & 50, 100, 1000  \\ \hline
+\end{tabular}
+\caption{Parameters for the simulated datasets.}
+\label{table:simulateddata}
+\end{table}
 
-$\rightarrow$ Real data
+To evaluate the accuracy of cluster assignments ($\bz^{\text{MAP}}$), we used the adjusted Rand Index (ARI), which is defined in \cite{Rand1971}. The ARI takes as input two clusterings and returns a number in $[0,1]$, where 0 indicates no matches, and 1 indicates that the two clusterings are the same. Thus, for a putative clustering $\mathcal{C}$ and the true clustering $\mathcal{K}$, we are interested in $\textsc{ARI}(\mathcal{C}, \mathcal{K})$.
 
-\section{Future work}
-%:
+To evaluate the accuracy of the cluster parameters ($\bphi^{\text{MAP}}$), we define the cluster frequency error (CFE), which is the expected error between the putative cluster parameters $\bphi^{\text{MAP}}_k$ and the true cluster parameters $\bphi_k$ over the putative clusters. Suppose that a clustering algorithm estimates $C$ putative clusters. Then
+\begin{align}
+\text{CFE}(\bphi^{\text{MAP}}) \defeq  \frac{1}{C} \sum_{c=1}^C \min_{k \in \{1, \ldots, K\}}  \left\Vert \bphi_c^{\text{MAP}} - \bphi_k \right\Vert.
+\end{align}
+
+\subsection{Results on simulated data}
+
+\subsection{Results on real data}
+
+\section{Discussion}
++ Compare accuracy between the three methods.
+
++ We expect VI to work faster: do a time plot of SciClone versus mine.
+
 \begin{itemize}
 	\item Add to bnpy to get stochastic/memoized VI
 	\item Use the results as input for other algorithms.
 \end{itemize}
 
-\section{Appendix A: Deriving update equations}
+\appendix
 
-\subsubsection{Allocation model}
-The coordinate ascent equations for the allocation model are standard (Blei 2006), as they follow from the fact that the stick-breaking process is in the exponential family. The allocation model has variational parameters $\{\eta_{k0}, \eta_{k1}\}_{k=1}^K$ for the cluster proportions and $\{\hat{r}_{nk}\}_{n=1, k=1}^{N, K}$ for the cluster responsibilities. On each iteration, the coordinate update is
+\section{Allocation model update equations}
+The coordinate ascent equations for the allocation model are standard \cite{Blei2006}, as they follow from the fact that the stick-breaking process is in the exponential family. The allocation model has variational parameters $\{\eta_{k0}, \eta_{k1}\}_{k=1}^K$ for the cluster proportions and $\{\hat{r}_{nk}\}_{n=1, k=1}^{N, K}$ for the cluster responsibilities. On each iteration, the coordinate update is
 \begin{align}
 \eta_{k1} &= 1 + \sum_n \hat{r}_{nk} = 1 + N_k \\
 \eta_{k0} &= \gamma + \sum_n \sum_{j=k+1}^K \hat{r}_{nj} = N_k^>\\
@@ -477,9 +510,10 @@ S_k &= \E_q[\log \bm{v}_k] + \sum_{i=1}^{k-1} \E_q \log(1 - \bm{v}_i) + \E_q[\lo
 \E_q[\log \bm{v}_i] &= \Psi(\eta_{k0}) - \Psi(\eta_{k0} +\eta_{k1}) \\
 \E_q[\log(1 -  \bm{v}_i)] &= \Psi(\eta_{k1}) - \Psi(\eta_{k0} +\eta_{k1})
 \end{align}
-The digamma functions come from the fact that derivative of the cumulant is the expectation, and the cumulant of a beta has gamma functions (http://math.stackexchange.com/questions/1603172/digamma-function-in-expectation). Since the $\hat{r}_{nk}$ sum to 1 over $n=1, \ldots, N$ then we renormalize at every step as well.
-\subsubsection{Observation model}
-Following the derivations in (Hughes 2015), we derive the coordinate ascent equations for our observation model, taking advantage of the fact that $q(\bm{\phi}_k)$ is in the exponential family, which we show below.
+The digamma functions come from the fact that derivative of the cumulant is the expectation, and the cumulant of a beta has gamma functions. Since the $\hat{r}_{nk}$ sum to 1 over $n=1, \ldots, N$ then we renormalize at every step as well.
+
+\section{Observation model update equations}
+Following the derivations in \cite{Hughes2015}, we derive the coordinate ascent equations for our observation model, taking advantage of the fact that $q(\bm{\phi}_k)$ is in the exponential family, which we show below.
 
 \begin{claim}
 $q(\bm{\phi}_k)$ is in the exponential family.
@@ -539,7 +573,7 @@ where we have abused notation to show the tuple nature of the sufficient statist
 \end{proof}
 \end{claim}
 
-\subsubsection{Exponential factorization of data model}
+\subsection{Exponential factorization of data model}
 \vspace{-0.5cm}
 \begin{align}
 p(\bx_n | \bz_n) &= \prod\limits_{m=1}^M \mathrm{Bin}(v_{mn}; \phi_{mn}, d_{mn}) \nonumber \\
@@ -578,9 +612,9 @@ p(\bx_n | \bz_n) &= \prod\limits_{m=1}^M \mathrm{Bin}(v_{mn}; \phi_{mn}, d_{mn})
 				\begin{bmatrix}
 					\log\left(1 - \phi_{Mn}\right) \\ \log\left(\frac{\phi_{Mn}}{1 - \phi_{Mn}}\right)
 				\end{bmatrix}
-			\end{bmatrix} \\
+			\end{bmatrix} \bigg)\\
 \end{align}
-so that the sufficient statistics 
+so that the sufficient statistics are
 \begin{equation}
 T(\bx_n) = 
 \begin{bmatrix}
@@ -599,7 +633,7 @@ Thus, following (Hughes 2015) we have the following coordinate ascent updates fo
 \beta_{mk} = (\beta_0 - 1) + \sum_{n=1}^N \hat{r}_{nk} \begin{bmatrix} d_{1n} \\ \vdots \\ d_{Mn} \end{bmatrix}
 \end{align*}
 
-\subsubsection{Sufficient statistics}
+\subsection{Sufficient statistics}
 Define 
 \begin{align}
 S_k &= \sum_{n=1}^N \hat{r}_{nk} s(x_n) = \sum_{n=1}^N \hat{r}_{nk} \begin{bmatrix}
@@ -614,7 +648,7 @@ N_k &= \sum_{n=1}^N \hat{r}_{nk} \\
 N_k^> &= \sum_{k+1}^K N_k
 \end{align}
 
-\subsubsection{Obs Model Likelihoods}
+\subsection{Obs Model Likelihoods}
 \begin{align*}
 \E_q[\log p(x_n | \alpha_{mk}, \beta_{mk})] &= \E_q[\log \left( \binom{d_{mn} + v_{mn}}{v_{mn}} (\bm{\phi}_k)^{v_{mn}} (1-\bm{\phi}_k)^{d_{mn}} \right)] \\
 					&= \log\left(\binom{d_{mn} + v_{mn}}{v_{mn}}\right) + d_{mn} \E_q[\log \bm{\phi}_k] + v_{mn}\E_q[\log(1 -  \bm{\phi}_k)]
@@ -624,16 +658,16 @@ N_k^> &= \sum_{k+1}^K N_k
 \end{align*}
 
 
-\section{Appendix: Computing the ELBO}
+\section{Computing the ELBO}
 
 To test for convergence, we calculate the ELBO until the difference in ELBO between laps is less than some pre-specified number. For the purpose of this model, the convergence threshold was set to 1. Note that the ELBO is generally not a convex function, so we cannot make any guarantees about monotonicity.
 
-Following (Hughes 2015), the ELBO can be decomposed into three terms:
+Following \cite{Hughes2015}, the ELBO can be decomposed into three terms:
 \begin{align*}
 \ELBO \coloneqq \mathcal{L} = \mathcal{L}_{\text{Obs}} + \mathcal{L}_{\text{DP-Alloc}} + \mathcal{L}_{\text{Entropy}}
 \end{align*}
 
-\subsubsection{Observation model contribution to ELBO}
+\subsection{Observation model contribution to ELBO}
 \begin{align}
 \begin{split}
 \mathcal{L}_{\text{Obs}} ={} & \E_{\bz, \bm{\phi}}[\log p(x | \bz, \bm{\phi})] + \E_\phi[\log p(\bm{\phi})] - \E_\phi[\log q(\bm{\phi})]
@@ -645,7 +679,7 @@ Following (Hughes 2015), the ELBO can be decomposed into three terms:
 							\end{split}
 \end{align}
 
-\subsubsection{Allocation model contribution to ELBO}
+\subsection{Allocation model contribution to ELBO}
 \begin{align}
 \begin{split}
 \mathcal{L}_{\text{DP-Alloc}} ={} & \sum\limits_{k=1}^K c_{\text{Beta}}(1, \gamma) - c_{\text{Beta}}(\eta_{k1}, \eta_{k0})  \\
@@ -656,9 +690,14 @@ Following (Hughes 2015), the ELBO can be decomposed into three terms:
 c_\text{Beta}(\alpha, \beta) &= \log \Gamma(\alpha + \beta) - \log \Gamma(\alpha) - \log \Gamma(\beta)
 \end{align}
 
-\subsubsection{Entropy contribution to ELBO}
+\subsection{Entropy contribution to ELBO}
 \begin{align*}
 \mathcal{L}_{\text{Entropy}} = - \sum_{k=1}^K\sum_{n=1}^N \hat{r}_{nk} \log \hat{r}_{nk}
 \end{align*}
+
+\addcontentsline{toc}{section}{References}
+\bibliographystyle{ieeetr}
+\bibliography{bibliography}
+\nocite{*}
 
 \end{document}
