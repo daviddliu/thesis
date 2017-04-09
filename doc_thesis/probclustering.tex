@@ -489,7 +489,9 @@ To evaluate the accuracy of the cluster parameters ($\bphi^{\text{MAP}}$), we de
 \section{Discussion}
 + Compare accuracy between the three methods.
 
-+ We expect VI to work faster: do a time plot of SciClone versus mine.
++ Compare more samples vs more coverage
+
++ We expect VI to work faster: do a time plot of SciClone versus mine. PyClone was run with 10000 iterations and a burn-in length of 1000 samples; these were the parameters recommended by PyClone's documentation. Figure X shows that the variational method is much faster than SciClone's MCMC inference, especially when more samples causes the dimensionality to increase. 
 
 \begin{itemize}
 	\item Add to bnpy to get stochastic/memoized VI
