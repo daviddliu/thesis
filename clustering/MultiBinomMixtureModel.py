@@ -11,7 +11,7 @@ class MultiBinomMixtureModel(ClusteringObject):
         super(MultiBinomMixtureModel, self).__init__("MultiBinom", output_dir, data_dir, sim_name)
         # Default K is the number of data points
         if not K:
-            self.initial_num_clusters = len(self.var_reads[0])//2
+            self.initial_num_clusters = len(self.var_reads[0])
         else:
             self.initial_num_clusters = K
         self.kmeans = kmeans
@@ -75,9 +75,9 @@ class MultiBinomMixtureModel(ClusteringObject):
             # Write time taken
             out_file.write("Time taken: %f\n" % self.clustering_time)
             # Write ARI
-            out_file.write("ARI: %f\n" % self.ARI)
+            # out_file.write("ARI: %f\n" % self.ARI)
             # Write cluster freq error
-            out_file.write("Cluster freq error: %f\n" % self.cluster_freq_error)
+            # out_file.write("Cluster freq error: %f\n" % self.cluster_freq_error)
 
 
             # Write number clusters

@@ -153,8 +153,9 @@
 
   \title{\vspace{2in}Clustering SNVs for Tumor Heterogeneity}
   \subtitle{Brown University, Math-CS Sc.B Thesis}
-  \date{\today}
-\author{David Liu \\ Supervisor: Professor Ben Raphael \\ Reader: Professor Erik Sudderth}
+  \date{ \vspace{1.0in} \today}
+\author{David Liu \vspace{1.5in}\\ Supervisor: Professor Ben Raphael \\[20pt] Reader: Professor Erik Sudderth}
+
 % Header
 \begin{document}
 \maketitle
@@ -489,14 +490,24 @@ To evaluate the accuracy of the cluster parameters ($\bphi^{\text{MAP}}$), we de
 \section{Discussion}
 + Compare accuracy between the three methods.
 
+\begin{enumerate}
+\item A beta plot for each type of clustering
+\item Violin plots for each type of clustering 
+\item One plot comparing the times
+\end{enumerate}
+
 + Compare more samples vs more coverage
 
-+ We expect VI to work faster: do a time plot of SciClone versus mine. PyClone was run with 10000 iterations and a burn-in length of 1000 samples; these were the parameters recommended by PyClone's documentation. Figure X shows that the variational method is much faster than SciClone's MCMC inference, especially when more samples causes the dimensionality to increase. 
++ We expect VI to work faster: do a time plot. PyClone was run with 10000 iterations and a burn-in length of 1000 samples; these were the parameters recommended by PyClone's documentation. Figure X shows that the variational method is much faster than PyClone's MCMC inference, especially when more samples causes the dimensionality to increase. However, SciClone is faster because the model selection method makes variational inference with the finite-dimensional Dirichlet faster. Further, SciClone is implemented in R, which is faster than Python; the code for the DP/variational method could be optimized to be much faster.
 
 \begin{itemize}
 	\item Add to bnpy to get stochastic/memoized VI
 	\item Use the results as input for other algorithms.
 \end{itemize}
+
+We have shown that the Dirichlet Process prior for the binomial mixture model with variational inference is a rigorous and efficient model and inference method for the SNV clustering problem. We were able to discover close to the correct number of clusters in most cases, with increasing sample size improving accuracy. As expected, variational inference worked much faster than MCMC methods. Writing the code in a faster language such as C or optimizing the code would  reduce the time gap between the nonparametric DP model and the parametric Dirichlet prior model.
+
+The ultimate purpose of such clustering methods is to be used as part of a pipeline that reconstructs phylogenies
 
 \appendix
 

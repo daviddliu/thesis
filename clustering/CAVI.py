@@ -63,8 +63,9 @@ class VariationalModel(object):
     """
     def __init__(self, var_reads, ref_reads, K, kmeans=False):
         # Data
-        self.var_reads = var_reads
-        self.ref_reads = ref_reads
+        self.var_reads = np.nan_to_num(var_reads).astype(int)
+        self.ref_reads = np.nan_to_num(ref_reads).astype(int)
+
 
         # -------------------------------#
         # Parameters for the alloc model #
@@ -115,6 +116,7 @@ class VariationalModel(object):
 
         if kmeans:
             self.VAFs = np.true_divide(self.var_reads, self.var_reads + self.ref_reads)
+            self.VAFs = np.nan_to_num(self.VAFs)
             kmeans = KMeans(n_clusters=K / 2, random_state=0).fit(self.VAFs.T)
             khard_assgns = kmeans.labels_
             # Initialize r
