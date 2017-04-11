@@ -1,0 +1,296 @@
+\documentclass[11pt]{article}
+\usepackage[margin=1in, paperwidth=8.5in, paperheight=11in]{geometry}
+\usepackage{epstopdf}
+\usepackage[parfill]{parskip}
+\usepackage[pdftex]{graphicx}
+\usepackage{changepage}
+\usepackage{titling}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{extramarks}
+\usepackage{amsfonts}
+\usepackage{amsthm}
+\usepackage{array}
+\usepackage{framed}
+\usepackage{xy}
+\usepackage{multicol}
+\usepackage{hyperref}
+\usepackage{float}
+\usepackage{subfig}
+\textwidth 7.0in
+\usepackage{fancyhdr}
+\usepackage{lastpage}
+\pagestyle{fancy}
+\headheight 26pt
+\fancyhf{}
+\linespread{1.1}
+\headsep20pt
+\newcommand{\inlinecode}{\texttt}
+\newcommand{\divider}{\line(1,0){250}}
+\rfoot{Page \thepage \  of \pageref{LastPage} }
+
+\renewcommand\headrulewidth{0.4pt}
+\renewcommand\footrulewidth{0.4pt}
+
+\setlength\parindent{0pt}
+
+%Custom definitions
+\newcommand{\problempart}[1]{\textbf{#1.}}
+\newcommand{\pof}[1]{\text{P(#1)}}
+\newcommand{\subtitle}[1]{%
+      \posttitle{%
+              \par\end{center}
+                  \begin{center}\large#1\end{center}
+                          \vskip0.5em}%
+                      }
+
+%%Set symbols
+\newcommand{\given}{\ensuremath{|} }
+\newcommand{\AND}{\ensuremath{\cap} }
+\newcommand{\OR}{\ensuremath{\cup} }
+
+\newcommand{\N}{\mathbb{N}}
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\Z}{\mathbb{Z}}
+\newcommand{\Q}{\mathbb{Q}}
+
+\newcommand{\powerset}[1]{\ensuremath{ \mathcal P \left({#1}\right)}}
+\newcommand{\set}[1]{\ensuremath{\left\{ #1 \right\}}}
+\newcommand{\stcomp}[1]{\overline{#1}} 
+
+\newcommand{\dlim}[2][\infty]{\displaystyle \lim_{#2 \rightarrow #1}}
+\newcommand{\indefint}{\displaystyle \int}
+\newcommand{\be}{\begin{enumerate}}
+\newcommand{\ee}{\end{enumerate}}
+\newcommand{\dsum}[2]{\displaystyle \sum_{#1}^{#2} }
+\newcommand{\defint}[4]{\int^#2_#1 #3\,d#4}
+
+\newcommand{\mohammed}{\textcolor{blue}}
+
+%
+% Create Problem Sections
+%
+
+\newcommand{\enterProblemHeader}[1]{
+    \nobreak\extramarks{}{Problem \arabic{#1} continued on next page\ldots}\nobreak{}
+    \nobreak\extramarks{Problem \arabic{#1} (continued)}{Problem \arabic{#1} continued on next page\ldots}\nobreak{}
+}
+
+\newcommand{\exitProblemHeader}[1]{
+    \nobreak\extramarks{Problem \arabic{#1} (continued)}{Problem \arabic{#1} continued on next page\ldots}\nobreak{}
+    \stepcounter{#1}
+    \nobreak\extramarks{Problem \arabic{#1}}{}\nobreak{}
+}
+
+\setcounter{secnumdepth}{0}
+\newcounter{partCounter}
+\newcounter{homeworkProblemCounter}
+\setcounter{homeworkProblemCounter}{1}
+\nobreak\extramarks{Problem \arabic{homeworkProblemCounter}}{}\nobreak{}
+
+%
+% Homework Problem Environment
+%
+% This environment takes an optional argument. When given, it will adjust the
+% problem counter. This is useful for when the problems given for your
+% assignment aren't sequential. See the last 3 problems of this template for an
+% example.
+%
+\newenvironment{homeworkProblem}[1][-1]{
+    \ifnum#1>0
+        \setcounter{homeworkProblemCounter}{#1}
+    \fi
+    \section{Problem \arabic{homeworkProblemCounter}}
+    \setcounter{partCounter}{1}
+    \enterProblemHeader{homeworkProblemCounter}
+}{
+    \exitProblemHeader{homeworkProblemCounter}
+}
+
+\renewcommand{\part}[1]{\textbf{\large Part \Alph{partCounter}}\stepcounter{partCounter}\vspace{4pt}  \\}
+
+% Various Helper Commands
+%
+
+\newcommand{\adjustimg}{% Horizontal adjustment of image
+  \checkoddpage%
+  \ifoddpage\hspace*{\dimexpr\evensidemargin-\oddsidemargin}\else\hspace*{-\dimexpr\evensidemargin-\oddsidemargin}\fi%
+}
+\newcommand{\centerimg}[2][width=\textwidth]{% Center an image
+  \makebox[\textwidth]{\adjustimg\includegraphics[#1]{#2}}%
+}
+
+
+% Useful for algorithms
+\newcommand{\alg}[1]{\textsc{\bfseries \footnotesize #1}}
+
+% For derivatives
+\newcommand{\deriv}[1]{\frac{\mathrm{d}}{\mathrm{d}x} (#1)}
+
+% For partial derivatives
+\newcommand{\pderiv}[2]{\frac{\partial}{\partial #1} (#2)}
+
+% Integral dx
+\newcommand{\dx}{\mathrm{d}x}
+
+% Alias for the Solution section header
+\newcommand{\solution}{\textbf{\large Solution}}
+
+% Probability commands: Expectation, Variance, Covariance, Bias
+\newcommand{\E}{\mathrm{E}}
+\newcommand{\Var}{\mathrm{Var}}
+\newcommand{\Cov}{\mathrm{Cov}}
+\newcommand{\Bias}{\mathrm{Bias}}
+
+\newcommand{\matr}[1]{\mathbf{#1}}
+
+\makeatletter
+\def\thm@space@setup{%
+  \thm@preskip=0.4cm
+  \thm@postskip=\thm@preskip % or whatever, if you don't want them to be equal
+}
+\makeatother
+
+
+\newtheorem{theorem}{Theorem}
+\newtheorem{lemma}{Lemma}
+\newtheorem{proposition}{Proposition}
+\newtheorem{observation}{Observation}
+\newtheorem{proposal}{Proposal}
+\newtheorem{claim}{Claim}
+
+% Move qed box to the left
+\renewcommand{\qed}{\unskip\nobreak\quad\qedsymbol}
+
+\newenvironment{conditions}
+  {\par\vspace{\abovedisplayskip}\noindent\begin{tabular}{>{$}l<{$} @{${}={}$} l}}
+  {\end{tabular}\par\vspace{\belowdisplayskip}}
+
+% Title page
+
+  \title{Clustering SNVs for Tumor Heterogeneity}
+  \subtitle{Math-CS Sc.B Thesis Proposal}
+  \date{\today}
+\author{David Liu}
+% Header
+
+\begin{document}
+\maketitle
+\section{Problem statement}
+Cancer results from an evolutionary process where somatic mutations occur and accumulate in a population of cells. A mutation causes genetic variation at a genomic site called a single nucleotide variant (SNV) for the cell which obtained the mutation and all of its progeny. Thus, combinations of SNVs correspond to different subpopulations of cells (clones) which can be placed on a phylogenetic tree. This mixture of clones is a phenomenon known as intratumor hetereogeneity. Each clone is commonly modeled by a binary feature vector, where each feature is an SNV.
+
+So suppose we take biopsy samples from a tumor seperated spatially or temporally. Each sample will have different proportions of clones whose relationships are unknown. Our goal is to characterize the evolutionary history of the clones (invariant across samples) and their mixing proportions (variant across samples). 
+
+The data typically used for tree inference is called the variant allele frequency (VAF), observed as follows. Suppose we bulk sequence each sample seperately, so that the reads are from a sample's mixture of clones. By comparing to a control sample, if a read contains the mutated allele at a SNV, it is called a variant read; otherwise it is called a reference read. The VAF is defined for each SNV in each sample, as, in each sample, the number of variant reads at an SNV divided by the number of total reads at that SNV.
+
+There exist algorithms to infer a tree and its population mixing proportions given perfectly accurate VAFs. However in the real world, data is noisy and this isn't so simple. Two VAFs that look different may actually be from the same clone; likewise, two VAFs that look the same may be from different clones. Thus, it is common to perform clustering to assign mutations to clusters which correspond to clones. Tree inference is then performed on these clusters.
+
+In this thesis, I propose and implement a method to cluster mutations using the Dirichlet Process and variational inference based on a binomial mixture model, which is suited for the clone mixing problem. It could also have applications in other clustering problems.
+
+\newpage
+
+\section{Model}
+
+Let $m = 1, \ldots, M$ index the samples (groups) and let $n = 1, ..., N$ index the SNVs (features). For each SNV $n$ in sample $m$, we observe two quantities: the total number $d_{m, n}$ of reads and the number $v_{m, n}$ of variant reads. Let $k=1,\ldots,K$ index the clusters and let $c_n$ denote the cluster assignment of SNV $n$.
+
+Suppose that each clone emits variant reads according to a binomial distribution with according to $\mathrm{Binomial}(d_{m,n}, \phi_{m,c_n})$. (\textbf{Note: May change this into a negative binomial model.}) 
+
+Further suppose that the cluster memberships are generated by a Dirichlet process, which is the prior for the clustering model. The cluster membership $c_i$ of an SNV $i$ is shared across samples and is distributed according to $\mathrm{Categorical}(w_1,\ldots,w_K)$.
+Figure~\ref{fig:GM} on the next page shows the graphical model.
+
+\newpage
+Notation:
+
+\begin{quote}
+$n = 1, \ldots , N$:  SNVs \\
+$m = 1, \ldots , M$: samples (groups) \\
+$k = 1, \ldots ,  K$: clusters
+\end{quote}
+
+\begin{figure}[H]
+\centerimg[scale=1.0]{multi_pgm.png}
+\caption{Graphical model for the VAFs.}
+\label{fig:GM}
+\end{figure}
+
+\begin{quote}
+$DP$ = Dirichlet process RV (stick-breaking construction) \\
+$H \sim U(0,1)$ = Base distribution	 \\
+$w_k$ = Weights for categorical distribution \\
+$c_{n} \in \{1, \cdots, K\}  \sim \mathrm{Categorical}(w_1, \cdots, w_K)$ =  Cluster membership for SNV $n$\\
+$\phi_{m,k}$ = Cluster frequency \\ 
+$v_{m,n} \sim \mathrm{Binom}(d_{m,n}, \phi_{m,c_n})$ = Observed variant reads\\ 
+$d_{m,n}$ = Observed total reads
+\end{quote}
+
+The VAF of SNV $n$ in sample $m$ is equal to $f_{m,n} = \frac{v_{m,n}}{d_{m,n}}$. We can encode all sample VAFs in a $M \times N$ matrix $F = [f_{mn}]$ which we call the VAF matrix, which is the input for the clustering problem.
+
+\newpage
+
+Suppose we have some set of clusters $\mathcal{C}=\{C_1, ..., C_K\}$. Let $C_k = \{n: c_n = k\}$, that is $C_k$ is all $n$ that are in cluster $k$. Further suppose that we have some matrix of inferred VAFs, $\Phi$. Pool reads as follows:
+\begin{align}
+\widetilde{d}_{m,k} &= \sum\limits_{n \in C_k} d_{m,n} \\
+\widetilde{v}_{m,k} &= \sum\limits_{n \in C_k} v_{m,n}
+\end{align}
+
+Then the likelihood of some VAF matrix $F$  under some clustering $\mathcal{C}$ is
+\begin{align}
+P(F|\mathcal{C}, \Phi) = \prod\limits_{m=1}^M \prod\limits_{k=1}^K\binom{\widetilde{d}_{p,j}}{\widetilde{v}_{m,k}} \left({\Phi}_{m,k}\right)^{\widetilde{v}_{m,k}} \left(1 - \Phi_{m,k}\right)^{\widetilde{d}_{m,k} - \widetilde{v}_{m,k}}
+\end{align}
+where the outer product is over all samples and the inner product is over the clusters in a sample.
+
+The posterior involves a Dirichlet Process prior, which is analytically intractable. We must use some sort of computational technique to perform inference on this posterior.
+
+\section{Variational Inference}
+
+Variational inference is an alternative to MCMC-based inference methods. Variational inference factors a posterior using the mean-field approximation, which approximates the posterior in a higher-dimensional space using simpler independent functions. Then a simple coordinate ascent can be performed in order to infer the model parameters.
+
+Now we wish to use variational inference to infer a $\mathcal{C}, \Phi$ for our posterior. This requires the posterior to be in the exponential family (source).
+
+\begin{lemma}
+The product of two exponential family functions is also exponential.
+\begin{proof}
+Exponential family functions can be parameterized by $$f_X(x\mid\theta) = h(x) \exp \left (\theta^T \cdot T(x) -A(\theta)\right ).$$ So suppose we have $f_1, f_2$ which are correspondingly parameterized. Note that $T(x)$ is the same because the sufficient statistic is invariant across a distribution. Then the product is
+\begin{align*}
+f_1 \times f_2 &= h_1(x) \exp \left (\theta_1^T \cdot T(x) -A(\theta_1)\right ) \times h_2(x) \exp \left (\theta_2^T \cdot T(x) -A(\theta_2)\right )\\
+			   &= \tilde{h}(x) \exp \left ((\theta_1 + \theta_2)^T \cdot T(x) -\tilde{A}(\theta_1, \theta+2)\right )
+\end{align*}
+which is also an exponential family distribution.
+\end{proof}
+\end{lemma}
+\begin{claim}
+The posterior is also of the exponential family.
+\begin{proof}
+    The DP prior is also exponential (source). Then the claim is trivial by lemma 1.
+\end{proof}
+\end{claim}
+\newpage
+
+\section{Variational Inference on Multi-sample Binomial Model}
+So suppose that our posterior factors as follows:
+\begin{align}
+    q(\mathcal{C}, \Phi | F) &=
+\underbrace{\prod\limits_{k=1}^\infty q(\vec{\phi_k})}_{\text{Observation parameters}} \times
+ \overbrace{\prod\limits_{k=1}^\infty q(\vec{w_k})}^{\text{Cluster proportions}} \times
+ \underbrace{\prod\limits_{n=1}^{N} q(z_n)}_{\text{Assignment of data to clusters}} \\
+ &= 
+ \underbrace{\prod\limits_{k=1}^\infty\prod\limits_{m=1}^M q(\phi_{km})}_{\text{Observation parameters}} \times
+ \overbrace{\prod\limits_{k=1}^\infty \prod\limits_{m=1}^M q(w_{km})}^{\text{Cluster proportions}} \times
+ \underbrace{\prod\limits_{n=1}^{N} q(z_n)}_{\text{Assignment of data to clusters}}
+ \intertext{Where we make the variational approximations based on sufficient statistic parameters (everything with a hat):}
+ q(\phi_{km}) &= P(\phi_{km}|\hat{\tau}_{km}, \hat{\nu}_{km}) \nonumber \\
+ q(w_{km}) &= \mathrm{Beta}(w_{km}|\hat{\eta}_{km0}, \hat{\eta}_{km1}) \nonumber \\
+ q(z_n) &= \mathrm{Cat}_\infty(z_n | \hat{r}_{n1}, \cdots, \hat{r}_{nk})\nonumber 
+\end{align}
+$q(\phi_{km}) = P(\phi_{km}|\hat{\tau}_{km}, \hat{\nu}_{km})$ is something I still have to figure out.
+
+The actual update equations are also something I still have to figure out.
+
+\section{Implmentation}
+This will either be implemented in Python or R.
+
+\section{Evaluating results}
+
+The clusterings will be evaluated on simulated and real tumor data. It may also be used in conjunction with other algorithms which use such clusterings as input, to see if this improves their performance.
+
+\end{document}
