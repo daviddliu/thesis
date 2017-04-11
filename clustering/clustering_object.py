@@ -10,7 +10,8 @@ import subprocess
 from collections import defaultdict
 from matplotlib.backends.backend_pdf import PdfPages
 from matplotlib import cm
-
+import matplotlib
+matplotlib.use('Agg')
 
 class ClusteringObject(object):
     """

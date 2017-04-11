@@ -5,7 +5,8 @@ import pandas as pd
 import seaborn as sns
 from matplotlib.backends.backend_pdf import PdfPages
 from MultiBinomMixtureModel import MultiBinomMixtureModel
-
+import matplotlib
+matplotlib.use('Agg')
 
 class ClusteringModule(object):
     """

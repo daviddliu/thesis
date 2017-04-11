@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.1415926-2.5-1.40.14 (TeX Live 2013) (format=pdflatex 2013.5.30)  9 APR 2017 14:00
+This is pdfTeX, Version 3.1415926-2.5-1.40.14 (TeX Live 2013) (format=pdflatex 2013.5.30)  11 APR 2017 16:56
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -556,7 +556,17 @@ Package hyperref Info: Option `colorlinks' set `true' on input line 47.
 \c@proposal=\count140
 \c@claim=\count141
 
-No file probclustering.aux.
+(./probclustering.aux
+
+LaTeX Warning: Label `fig:Heterogeneity' multiply defined.
+
+
+LaTeX Warning: Label `fig:Heterogeneity' multiply defined.
+
+
+LaTeX Warning: Label `fig:Heterogeneity' multiply defined.
+
+)
 \openout1 = `probclustering.aux'.
 
 LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 160.
@@ -573,6 +583,7 @@ LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 160.
 LaTeX Font Info:    ... okay on input line 160.
 LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 160.
 LaTeX Font Info:    ... okay on input line 160.
+
 *geometry* driver: auto-detecting
 *geometry* detected driver: pdftex
 *geometry* verbose mode - [ preamble ] result:
@@ -654,6 +665,8 @@ Package: gettitlestring 2010/12/03 v1.4 Cleanup title references (HO)
 LaTeX Info: Redefining \ref on input line 160.
 LaTeX Info: Redefining \pageref on input line 160.
 LaTeX Info: Redefining \nameref on input line 160.
+
+(./probclustering.out) (./probclustering.out)
 \@outlinefile=\write4
 \openout4 = `probclustering.out'.
 
@@ -667,24 +680,21 @@ Package lastpage Info: Please have a look at the pageslts package at
 (lastpage)             http://www.ctan.org/tex-archive/ 
 (lastpage)             install/macros/latex/contrib/pageslts.tds.zip
 (lastpage)             ! on input line 160.
+ [1
 
-[1
-
-{/usr/local/texlive/2013/texmf-var/fonts/map/pdftex/updmap/pdftex.map}]
+{/usr/local/texlive/2013/texmf-var/fonts/map/pdftex/updmap/pdftex.map}] (./prob
+clustering.toc)
 \tf@toc=\write5
 \openout5 = `probclustering.toc'.
 
-
-
-LaTeX Warning: Citation `Nowell1976' on page 2 undefined on input line 165.
-
-<heterogeneity.png, id=12, 424.58624pt x 336.25626pt>
+ [2]
+<heterogeneity.png, id=183, 424.58624pt x 336.25626pt>
 File: heterogeneity.png Graphic file (type png)
  <use heterogeneity.png>
 Package pdftex.def Info: heterogeneity.png used on input line 169.
 (pdftex.def)             Requested size: 252.94499pt x 200.32379pt.
 
-<multiplesamples.png, id=14, 275.0275pt x 271.0125pt>
+<multiplesamples.png, id=185, 275.0275pt x 271.0125pt>
 File: multiplesamples.png Graphic file (type png)
 
 <use multiplesamples.png>
@@ -695,227 +705,98 @@ Overfull \hbox (2.43332pt too wide) in paragraph at lines 169--173
 [][]  [] 
  []
 
-
-LaTeX Warning: Citation `Ancestree' on page 2 undefined on input line 174.
-
-
-LaTeX Warning: Citation `Ancestree' on page 2 undefined on input line 174.
-
-
-LaTeX Warning: Citation `Gerlinger2012' on page 2 undefined on input line 178.
-
-
-LaTeX Warning: Citation `Raphael2014' on page 2 undefined on input line 178.
-
-
-LaTeX Warning: Citation `Ancestree' on page 2 undefined on input line 180.
-
-
-LaTeX Warning: Citation `Ding2012' on page 2 undefined on input line 184.
-
-
-LaTeX Warning: Reference `LastPage' on page 2 undefined on input line 185.
-
-[2 <./heterogeneity.png> <./multiplesamples.png>]
-
-LaTeX Warning: Citation `Lander1988' on page 3 undefined on input line 191.
-
-
-LaTeX Warning: Reference `LastPage' on page 3 undefined on input line 207.
-
-[3]
-
-LaTeX Warning: Citation `SciClone' on page 4 undefined on input line 213.
-
-
-LaTeX Warning: Citation `Clomial' on page 4 undefined on input line 213.
-
-
-LaTeX Warning: Citation `PyClone' on page 4 undefined on input line 213.
-
-
-LaTeX Warning: Citation `Jordan1999' on page 4 undefined on input line 217.
-
-
+[3 <./heterogeneity.png> <./multiplesamples.png>] [4]
 Overfull \vbox (25.39384pt too high) detected at line 226
  []
 
-
-LaTeX Warning: Reference `LastPage' on page 4 undefined on input line 239.
-
-[4]
-
-LaTeX Warning: Reference `fig:GM' on page 5 undefined on input line 242.
-
-
-LaTeX Warning: Citation `Antoniak1974' on page 5 undefined on input line 249.
-
-
-LaTeX Warning: Reference `eq:xlikelihood' on page 5 undefined on input line 251
-.
-
-
-LaTeX Warning: Reference `eq:jointlikelihood' on page 5 undefined on input line
- 256.
-
-
-LaTeX Warning: Citation `Blei2006' on page 5 undefined on input line 261.
-
-
-LaTeX Warning: Reference `LastPage' on page 5 undefined on input line 280.
-
-[5] <multi_pgm.png, id=69, 307.1475pt x 229.8186pt>
+[5] [6] <multi_pgm.png, id=264, 307.1475pt x 229.8186pt>
 File: multi_pgm.png Graphic file (type png)
  <use multi_pgm.png>
 Package pdftex.def Info: multi_pgm.png used on input line 282.
 (pdftex.def)             Requested size: 307.14674pt x 229.81804pt.
 
-
-LaTeX Warning: Reference `LastPage' on page 6 undefined on input line 309.
-
-[6 <./multi_pgm.png>]
+[7 <./multi_pgm.png>]
 
 LaTeX Font Warning: Font shape `OT1/cmr/bx/sc' undefined
 (Font)              using `OT1/cmr/bx/n' instead on input line 309.
 
+[8] [9] [10] [11]
+<PyClone_cluster_frequency_plot.png, id=328, 867.24pt x 289.08pt>
+File: PyClone_cluster_frequency_plot.png Graphic file (type png)
 
-LaTeX Warning: Citation `Blei2006' on page 7 undefined on input line 311.
+<use PyClone_cluster_frequency_plot.png>
+Package pdftex.def Info: PyClone_cluster_frequency_plot.png used on input line 
+494.
+(pdftex.def)             Requested size: 650.42842pt x 216.80946pt.
 
+<SciClone_cluster_freq_error_plot.png, id=329, 867.24pt x 289.08pt>
+File: SciClone_cluster_freq_error_plot.png Graphic file (type png)
 
-LaTeX Warning: Reference `eq:optimalq' on page 7 undefined on input line 318.
+<use SciClone_cluster_freq_error_plot.png>
+Package pdftex.def Info: SciClone_cluster_freq_error_plot.png used on input lin
+e 495.
+(pdftex.def)             Requested size: 650.42842pt x 216.80946pt.
+ [12] [13 <./PyClone_cluster_frequency_plot.png> <./SciClone_cluster_freq_error
+_plot.png>]
+<PyClone_ARI.png, id=349, 867.24pt x 289.08pt>
+File: PyClone_ARI.png Graphic file (type png)
+ <use PyClone_ARI.png>
+Package pdftex.def Info: PyClone_ARI.png used on input line 502.
+(pdftex.def)             Requested size: 650.42842pt x 216.80946pt.
 
+<SciClone_ARI.png, id=350, 867.24pt x 289.08pt>
+File: SciClone_ARI.png Graphic file (type png)
+ <use SciClone_ARI.png>
+Package pdftex.def Info: SciClone_ARI.png used on input line 503.
+(pdftex.def)             Requested size: 650.42842pt x 216.80946pt.
+ [14 <./PyClone_ARI.png> <./SciClone_ARI.png>]
+<PyClone_num_clusters.png, id=359, 867.24pt x 289.08pt>
+File: PyClone_num_clusters.png Graphic file (type png)
 
-LaTeX Warning: Citation `Blei2006' on page 7 undefined on input line 335.
+<use PyClone_num_clusters.png>
+Package pdftex.def Info: PyClone_num_clusters.png used on input line 510.
+(pdftex.def)             Requested size: 650.42842pt x 216.80946pt.
 
+<SciClone_num_clusters.png, id=360, 867.24pt x 289.08pt>
+File: SciClone_num_clusters.png Graphic file (type png)
 
-LaTeX Warning: Citation `Bishop2006' on page 7 undefined on input line 342.
-
-
-LaTeX Warning: Reference `eq:ELBO' on page 7 undefined on input line 342.
-
-
-LaTeX Warning: Reference `eq:meanfield' on page 7 undefined on input line 342.
-
-
-LaTeX Warning: Reference `LastPage' on page 7 undefined on input line 346.
-
-[7]
-
-LaTeX Warning: Reference `eq:coordascent' on page 8 undefined on input line 352
-.
-
-
-LaTeX Warning: Citation `Hughes2015' on page 8 undefined on input line 360.
-
-
-LaTeX Warning: Reference `eq:coordascent' on page 8 undefined on input line 360
-.
-
-
-LaTeX Warning: Reference `LastPage' on page 8 undefined on input line 380.
-
-[8]
-
-LaTeX Warning: Citation `Hughes2015' on page 9 undefined on input line 395.
-
-
-LaTeX Warning: Reference `LastPage' on page 9 undefined on input line 402.
-
-[9]
-
-LaTeX Warning: Citation `Hughes2015' on page 10 undefined on input line 402.
-
-
-LaTeX Warning: Reference `LastPage' on page 10 undefined on input line 456.
-
-[10]
-
-LaTeX Warning: Reference `table:methods' on page 11 undefined on input line 464
-.
-
-
-LaTeX Warning: Citation `Rand1971' on page 11 undefined on input line 479.
-
-
-LaTeX Warning: Reference `LastPage' on page 11 undefined on input line 494.
-
-[11]
-LaTeX Font Info:    Try loading font information for OMS+cmr on input line 504.
+<use SciClone_num_clusters.png>
+Package pdftex.def Info: SciClone_num_clusters.png used on input line 511.
+(pdftex.def)             Requested size: 650.42842pt x 216.80946pt.
+ [15 <./PyClone_num_clusters.png> <./SciClone_num_clusters.png>]
+LaTeX Font Info:    Try loading font information for OMS+cmr on input line 529.
 
  (/usr/local/texlive/2013/texmf-dist/tex/latex/base/omscmr.fd
 File: omscmr.fd 1999/05/25 v2.5h Standard LaTeX font definitions
 )
 LaTeX Font Info:    Font shape `OMS/cmr/m/n' in size <10.95> not available
-(Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 504.
+(Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 529.
 
-
-LaTeX Warning: Citation `Blei2006' on page 12 undefined on input line 511.
-
-
-LaTeX Warning: Reference `LastPage' on page 12 undefined on input line 523.
-
-[12]
-
-LaTeX Warning: Citation `Hughes2015' on page 13 undefined on input line 525.
-
-
-LaTeX Warning: Reference `LastPage' on page 13 undefined on input line 625.
-
-[13]
-
-LaTeX Warning: Reference `LastPage' on page 14 undefined on input line 658.
-
-[14]
-
-LaTeX Warning: Citation `Hughes2015' on page 15 undefined on input line 674.
-
-
-LaTeX Warning: Reference `LastPage' on page 15 undefined on input line 689.
-
-[15] (./probclustering.bbl
-
-LaTeX Warning: Reference `LastPage' on page 16 undefined on input line 22.
-
-[16])
-
-Package lastpage Warning: Rerun to get the references right on input line 712.
-
+[16] [17] [18] [19] (./probclustering.bbl [20])
 
 AED: lastpage setting LastPage
-
-LaTeX Warning: Reference `LastPage' on page 17 undefined on input line 712.
-
-[17]
-Package atveryend Info: Empty hook `BeforeClearDocument' on input line 712.
-Package atveryend Info: Empty hook `AfterLastShipout' on input line 712.
+[21]
+Package atveryend Info: Empty hook `BeforeClearDocument' on input line 741.
+Package atveryend Info: Empty hook `AfterLastShipout' on input line 741.
  (./probclustering.aux)
-Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 712.
-Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 712.
+Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 741.
+Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 741.
+Package rerunfilecheck Info: File `probclustering.out' has not changed.
+(rerunfilecheck)             Checksum: 46115FAF0740D3C1C384F46505B7BE1A;2246.
 
-
-Package rerunfilecheck Warning: File `probclustering.out' has changed.
-(rerunfilecheck)                Rerun to get outlines right
-(rerunfilecheck)                or use package `bookmark'.
-
-Package rerunfilecheck Info: Checksums for `probclustering.out':
-(rerunfilecheck)             Before: <no file>
-(rerunfilecheck)             After:  46115FAF0740D3C1C384F46505B7BE1A;2246.
 
 LaTeX Font Warning: Some font shapes were not available, defaults substituted.
 
 
-LaTeX Warning: There were undefined references.
+LaTeX Warning: There were multiply-defined labels.
 
-
-LaTeX Warning: Label(s) may have changed. Rerun to get cross-references right.
-
-Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 712.
+Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 741.
  ) 
 Here is how much of TeX's memory you used:
- 11341 strings out of 493315
- 164576 string characters out of 6137904
- 318294 words of memory out of 5000000
- 14470 multiletter control sequences out of 15000+600000
+ 11418 strings out of 493315
+ 166125 string characters out of 6137904
+ 319631 words of memory out of 5000000
+ 14526 multiletter control sequences out of 15000+600000
  21415 words of font info for 81 fonts, out of 8000000 for 9000
  957 hyphenation exceptions out of 8191
  44i,24n,43p,884b,502s stack positions out of 5000i,500n,10000p,200000b,80000s
@@ -943,10 +824,10 @@ texmf-dist/fonts/type1/public/amsfonts/cm/cmti10.pfb></usr/local/texlive/2013/t
 exmf-dist/fonts/type1/public/amsfonts/cm/cmti12.pfb></usr/local/texlive/2013/te
 xmf-dist/fonts/type1/public/amsfonts/cm/cmtt10.pfb></usr/local/texlive/2013/tex
 mf-dist/fonts/type1/public/amsfonts/symbols/msbm10.pfb>
-Output written on probclustering.pdf (17 pages, 412945 bytes).
+Output written on probclustering.pdf (21 pages, 730595 bytes).
 PDF statistics:
- 317 PDF objects out of 1000 (max. 8388607)
- 265 compressed objects within 3 object streams
- 124 named destinations out of 1000 (max. 500000)
- 16 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 534 PDF objects out of 1000 (max. 8388607)
+ 463 compressed objects within 5 object streams
+ 131 named destinations out of 1000 (max. 500000)
+ 302 words of extra memory for PDF output out of 10000 (max. 10000000)
 
