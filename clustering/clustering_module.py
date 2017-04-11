@@ -8,6 +8,7 @@ from MultiBinomMixtureModel import MultiBinomMixtureModel
 import matplotlib
 matplotlib.use('Agg')
 
+
 class ClusteringModule(object):
     """
         Peforms clustering on multiple clustering objects, and provides summary statistics.

@@ -3,7 +3,7 @@ Convergence threshold: 1.000000
 Initial num clusters: 29
 kmeans: True
 
-Time taken: 2.795770
+Time taken: 5.586101
 Num active clusters: 10
 Cluster assignments
 5
