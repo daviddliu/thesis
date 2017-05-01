@@ -4,29 +4,28 @@
 \contentsline {subsection}{\numberline {2.2}Clonal Membership and Generation of Reads}{4}{subsection.2.2}
 \contentsline {section}{\numberline {3}Existing methods}{5}{section.3}
 \contentsline {section}{\numberline {4}Binomial Mixture Model with DP prior}{6}{section.4}
-\contentsline {section}{\numberline {5}Overview of Variational Inference}{7}{section.5}
+\contentsline {section}{\numberline {5}Overview of Variational Inference}{8}{section.5}
 \contentsline {subsection}{\numberline {5.1}The \textsc {ELBO}}{8}{subsection.5.1}
 \contentsline {subsection}{\numberline {5.2}The mean-field variational family}{8}{subsection.5.2}
 \contentsline {subsection}{\numberline {5.3}Coordinate ascent}{8}{subsection.5.3}
 \contentsline {subsection}{\numberline {5.4}Exponential family distributions yield a general formula}{9}{subsection.5.4}
-\contentsline {section}{\numberline {6}Variational Inference on DP Binomial Model}{9}{section.6}
-\contentsline {subsection}{\numberline {6.1}The model and its ELBO}{9}{subsection.6.1}
-\contentsline {subsection}{\numberline {6.2}Coordinate ascent algorithm}{10}{subsection.6.2}
-\contentsline {subsubsection}{\numberline {6.2.1}Initialization}{10}{subsubsection.6.2.1}
-\contentsline {subsubsection}{\numberline {6.2.2}Convergence}{10}{subsubsection.6.2.2}
-\contentsline {subsection}{\numberline {6.3}MAP estimates}{11}{subsection.6.3}
+\contentsline {section}{\numberline {6}Variational Inference on DP Binomial Model}{10}{section.6}
+\contentsline {subsection}{\numberline {6.1}The model and its ELBO}{10}{subsection.6.1}
+\contentsline {subsection}{\numberline {6.2}Coordinate ascent algorithm}{11}{subsection.6.2}
+\contentsline {subsection}{\numberline {6.3}MAP estimates}{12}{subsection.6.3}
 \contentsline {subsection}{\numberline {6.4}Implementation}{12}{subsection.6.4}
-\contentsline {section}{\numberline {7}Experiments and Results}{12}{section.7}
-\contentsline {subsection}{\numberline {7.1}Results on simulated data}{13}{subsection.7.1}
-\contentsline {subsection}{\numberline {7.2}Results on real data}{13}{subsection.7.2}
-\contentsline {section}{\numberline {8}Discussion}{13}{section.8}
-\contentsline {section}{\numberline {A}Allocation model update equations}{13}{appendix.A}
-\contentsline {section}{\numberline {B}Observation model update equations}{13}{appendix.B}
-\contentsline {subsection}{\numberline {B.1}Exponential factorization of data model}{15}{subsection.B.1}
-\contentsline {subsection}{\numberline {B.2}Sufficient statistics}{16}{subsection.B.2}
-\contentsline {subsection}{\numberline {B.3}Obs Model Likelihoods}{16}{subsection.B.3}
-\contentsline {section}{\numberline {C}Computing the ELBO}{16}{appendix.C}
-\contentsline {subsection}{\numberline {C.1}Observation model contribution to ELBO}{17}{subsection.C.1}
-\contentsline {subsection}{\numberline {C.2}Allocation model contribution to ELBO}{17}{subsection.C.2}
-\contentsline {subsection}{\numberline {C.3}Entropy contribution to ELBO}{17}{subsection.C.3}
-\contentsline {section}{References}{17}{subsection.C.3}
+\contentsline {section}{\numberline {7}Experiments and Results}{13}{section.7}
+\contentsline {section}{\numberline {8}Discussion}{20}{section.8}
+\contentsline {section}{\numberline {9}Acknowledgements}{20}{section.9}
+\contentsline {section}{References}{21}{section.9}
+\contentsline {section}{Appendices}{22}{section*.13}
+\contentsline {section}{\numberline {A}Allocation model update equations}{22}{Appendix.a.A}
+\contentsline {section}{\numberline {B}Observation model update equations}{22}{Appendix.a.B}
+\contentsline {subsection}{\numberline {B.1}Exponential factorization of data model}{24}{subsection.a.B.1}
+\contentsline {subsection}{\numberline {B.2}Sufficient statistics}{25}{subsection.a.B.2}
+\contentsline {subsection}{\numberline {B.3}Obs Model Likelihoods}{25}{subsection.a.B.3}
+\contentsline {section}{\numberline {C}Computing the ELBO}{26}{Appendix.a.C}
+\contentsline {subsection}{\numberline {C.1}Observation model contribution to ELBO}{26}{subsection.a.C.1}
+\contentsline {subsection}{\numberline {C.2}Allocation model contribution to ELBO}{26}{subsection.a.C.2}
+\contentsline {subsection}{\numberline {C.3}Entropy contribution to ELBO}{26}{subsection.a.C.3}
+\contentsline {section}{\numberline {D}Examples of clustering posterior plots (DP/VI)}{27}{Appendix.a.D}
