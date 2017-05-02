@@ -260,7 +260,7 @@ The likelihood of $\bx_n$ depends on the latent variables in a straightforward w
 \end{align}
 Then the joint likelihood of the observed data and cluster memberships, follows from (\ref{eq:jointlikelihood}): 
 \begin{equation}
-\Pr(\mathbf{x_n}, \bz | \bm{\pi}, \bphi) = \prod\limits_{k=1}^K \prod\limits_{m=1}^M \left(\pi_k \mathrm{Bin}(v_{mn}; d_{mn}, \phi_{mk})\right)^{\bz_{nk}}
+\Pr(\mathbf{x_n}, \bz | \bm{\pi}, \bphi) = \prod\limits_{k=1}^K \pi_k  \prod\limits_{m=1}^M \left(\mathrm{Bin}(v_{mn}; d_{mn}, \phi_{mk})\right)^{\bz_{nk}}
 \end{equation}
 
 As described in \cite{Blei2006}, the Dirichlet Process can be described constructively with a stick-breaking process as follows, for some base measure $H$ and concentration parameter $\alpha$:
@@ -278,9 +278,10 @@ As described in \cite{Blei2006}, the Dirichlet Process can be described construc
 	\end{enumerate}
 \end{enumerate}
 The full cluster assignment posterior 
-\begin{equation}
-p(\bz | \bx, \alpha, H) = \int p(\bx | \mathbf{\phi}) p(\phi | \bx, \alpha, H) \, d\phi
-\end{equation}
+\begin{align}
+p(\bz | \bx) &= \frac{p(\bz, \bx)}{p(\bx)} \nonumber \\
+     					     &=\frac{p(\bz, \bx)}{\int p(\bz, \bx) \,d\bz}
+\end{align}
 involves a Dirichlet Process and is thus analytically intractable. We must use some sort of computational technique, such as variational inference, to perform inference on this posterior.
 
 \begin{figure}[h]
@@ -381,7 +382,7 @@ where $\lambda$ represents the hyperparameter governing the stick-breaking proce
     q(\bz, \mathbf{v}, \bm{\phi}) &=
 \underbrace{\prod\limits_{k=1}^K q(\bm{\phi}_k)}_{\substack{\text{Observation: likelihoods}  \\  \text{Product of betas} \\ 2MK \text{ variational parameters} \\  \{\alpha_{mk}, \beta_{mk} \}_{m=1, k=1}^{M, K} }} \times
  \underbrace{\prod\limits_{k=1}^K q(\mathbf{v}_k)}_{\substack{\text{Allocation: cluster proportions} \\ \text{Product of betas} \\ 2K \text{ variational parameters}  \\ \{\eta_{k0}, \eta_{k1}\}_{k=1}^K   }} \times
- \underbrace{\prod\limits_{n=1}^{N} q(z_n)}_{\substack{ \text{Allocation: cluster responsibilities} \\ \text{Product of categoricals} \\ 2NK \text{ variational parameters}  \\ \{\hat{r}_{nk}\}_{n=1, k=1}^{N, K}   }} \nonumber
+ \underbrace{\prod\limits_{n=1}^{N} q(z_n)}_{\substack{ \text{Allocation: cluster responsibilities} \\ \text{Product of categoricals} \\ NK \text{ variational parameters}  \\ \{\hat{r}_{nk}\}_{n=1, k=1}^{N, K}   }} \nonumber
 \end{align}
 
 Note that the cluster proportions and data assignments are dictated by the Dirichlet Process|we call this the allocation model. On the other hand, the observation parameters vary depending on the structure of the generative model|we call this the observation model (Hughes 2015). Here we derive the form of the  $q(\bm{\phi}_k)$ is a function of $\bm{\phi_k}$, as the observation model is specific to our multi-sample binomial model.
@@ -396,7 +397,7 @@ q(\bm{\phi}_k)  &= \prod\limits_{m=1}^M q(\bm{\phi}_{mk}) \\
 
 The derivations of the coordinate ascent algorithm are in Appendices A and B. The derivations for the ELBO are in Appendix C.
 
-The initial responsibilities of the cluster were chosen by setting $\hat{r}_{nk} = 1$ if $n$ was set to be in cluster $k$ by the k-means++ algorithm with $N$ initial clusters \cite{Hughes2015}, with the other $\hat{r}_{n.}$ set to be $\frac{1}{k}$. These responsibilities were then normalized. For the other parameters, we assume that they are set to their prior or uniform values. Thus the truncation level of $K$ was set to be $N$, with all $K > N$ having zero probability.
+The initial responsibilities of the cluster were chosen by setting $\hat{r}_{nk} = 1$ if $n$ was set to be in cluster $k$ by the k-means++ algorithm with $\frac{N}{2}$ initial clusters \cite{Hughes2015}, with the other $\hat{r}_{n.}$ set to be $\frac{1}{k}$. These responsibilities were then normalized. For the other parameters, we assume that they are set to their prior or uniform values. Thus the truncation level of $K$ was set to be $N$, with all $K > N$ having zero probability.
 
 Since we assumed a uniform prior, $\alpha_0 = \beta_0 = 1$. The other parameters were chosen empirically. We let $\gamma_1 = \eta_1 = 1.0$ and $\gamma_0 = \eta_0 = 1.5$.
 

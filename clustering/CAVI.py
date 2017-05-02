@@ -117,6 +117,7 @@ class VariationalModel(object):
             self.VAFs = np.true_divide(self.var_reads, self.var_reads + self.ref_reads)
             kmeans = KMeans(n_clusters=K / 2, random_state=0).fit(self.VAFs.T)
             khard_assgns = kmeans.labels_
+            import ipdb; ipdb.set_trace()
             # Initialize r
             for i, label in enumerate(khard_assgns):
                 self.r[i][label] = 1
